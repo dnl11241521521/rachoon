@@ -1,0 +1,10 @@
+{
+	"extends": ["plugin:vue/vue3-essential", "eslint:recommended", "plugin:prettier/recommended", "@nuxtjs/eslint-config-typescript"],
+	"plugins": ["@typescript-eslint"],
+	"parserOptions": {
+		"parser": "@typescript-eslint/parser"
+	},
+	"rules": {
+		"prettier/prettier": "off"
+	}
+}
