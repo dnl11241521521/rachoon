@@ -1,4 +1,3 @@
-import Project from 'App/Models/Project'
 import { SoftDeletes } from '@ioc:Adonis/Addons/LucidSoftDeletes'
 import { compose } from '@ioc:Adonis/Core/Helpers'
 import { DateTime } from 'luxon'
@@ -9,15 +8,10 @@ import {
   BaseModel,
   belongsTo,
   BelongsTo,
-  manyToMany,
-  ManyToMany,
-  hasMany,
-  HasMany,
   computed,
 } from '@ioc:Adonis/Lucid/Orm'
 import Organization from './Organization'
 import HashIDs from 'App/Helpers/hashids'
-import TimeTrack from './TimeTrack'
 
 export default class User extends compose(BaseModel, SoftDeletes) {
   public serializeExtras() {
@@ -73,10 +67,4 @@ export default class User extends compose(BaseModel, SoftDeletes) {
   public get isAdmin() {
     return this.role === 'admin'
   }
-
-  @manyToMany(() => Project, { pivotTable: 'user_projects' })
-  public projects: ManyToMany<typeof Project>
-
-  @hasMany(() => TimeTrack)
-  public timeTracks: HasMany<typeof TimeTrack>
 }

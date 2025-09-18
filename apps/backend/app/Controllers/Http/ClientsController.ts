@@ -1,4 +1,3 @@
-import Database from '@ioc:Adonis/Lucid/Database'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import ClientValidator from 'App/Validators/Client'
 import Client from '../../Models/Client'
@@ -16,10 +15,6 @@ export default class ClientsController {
       .withCount('invoices', (query) => query.where({ status: 'pending' }).as('pendingInvoices'))
       .withCount('offers', (query) => query.as('totalOffers'))
       .withCount('offers', (query) => query.where({ status: 'pending' }).as('pendingOffers'))
-      .withCount('projects', (query) => query.as('totalProjects'))
-      .withAggregate('timeTracks', (query) =>
-        query.sum(Database.knexRawQuery(`(data->>'minutes')::int`)).as('minutes')
-      )
       .orderBy('created_at', 'desc')
   }
 

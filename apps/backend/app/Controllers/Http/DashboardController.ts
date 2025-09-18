@@ -1,8 +1,6 @@
-import TimeTrack from 'App/Models/TimeTrack'
 import Database from '@ioc:Adonis/Lucid/Database'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import InvoiceOrOffer from 'App/Models/InvoiceOrOffer'
-import { DateTime } from 'luxon'
 
 export default class DashboardController {
   public async index(ctx: HttpContextContract) {
@@ -40,16 +38,6 @@ export default class DashboardController {
       .select(Database.raw(`sum((data->>'net')::float) as net`))
       .first()
 
-    const timeTracks = await TimeTrack.query()
-      .where({
-        organizationId: ctx.auth.user?.organization.id,
-        userId: ctx.auth.user?.id,
-      })
-      .andWhere('date', '>=', DateTime.local(DateTime.now().year, 1, 1, 0, 0).toSQL() as string)
-      .andWhere('date', '<=', DateTime.local(DateTime.now().year, 12, 31, 23, 59).toSQL() as string)
-      .select(Database.raw(`sum((data->>'minutes')::int) as minutes`))
-      .first()
-
     return {
       invoices: {
         net: invoiceAmounts?.$extras.net,
@@ -60,9 +48,6 @@ export default class DashboardController {
         net: offerAmounts?.$extras.net,
         total: offerAmounts?.$extras.total,
         pending: pendingOffers,
-      },
-      timetracks: {
-        minutes: timeTracks?.$extras.minutes,
       },
     }
   }

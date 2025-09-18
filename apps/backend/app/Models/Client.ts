@@ -1,4 +1,3 @@
-import TimeTrack from 'App/Models/TimeTrack'
 import { DateTime } from 'luxon'
 import { compose } from '@ioc:Adonis/Core/Helpers'
 import { column, BaseModel, belongsTo, BelongsTo, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
@@ -6,7 +5,6 @@ import Organization from './Organization'
 import HashIDs from '../Helpers/hashids'
 import InvoiceOrOffer from './InvoiceOrOffer'
 import { SoftDeletes } from '@ioc:Adonis/Addons/LucidSoftDeletes'
-import Project from './Project'
 
 export default class Client extends compose(BaseModel, SoftDeletes) {
   public serializeExtras() {
@@ -17,7 +15,6 @@ export default class Client extends compose(BaseModel, SoftDeletes) {
       pendingOffers: Number(this.$extras.pendingOffers || 0),
       invoicesTotal: Number(this.$extras.invoicesTotal || 0),
       minutes: Number(this.$extras.minutes || 0),
-      totalProjects: Number(this.$extras.totalProjects || 0),
     }
   }
   public totalInvoices: number
@@ -55,11 +52,6 @@ export default class Client extends compose(BaseModel, SoftDeletes) {
     },
   })
   public offers: HasMany<typeof InvoiceOrOffer>
-
-  @hasMany(() => TimeTrack, {})
-  public timeTracks: HasMany<typeof TimeTrack>
-  @hasMany(() => Project, {})
-  public projects: HasMany<typeof Project>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
