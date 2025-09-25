@@ -18,6 +18,7 @@
     "@kyvg/vue3-notification": "^3.2.1",
     "@nuxtjs/tailwindcss": "^6.12.0",
     "@pinia/nuxt": "^0.5.1",
+    "@repo/common": "workspace:^",
     "@tailwindcss/typography": "^0.5.13",
     "@tiptap/extension-placeholder": "^2.3.1",
     "@tiptap/starter-kit": "^2.3.1",

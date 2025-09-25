@@ -1,11 +1,4 @@
-import nunjucks from "nunjucks";
-import ioTemplates from "@/templates/invoiceOrOffer";
-
 export default async function useRender(object: any, preview: boolean = false): Promise<string | string[]> {
-  const t = (key: string, ...val: any): string => {
-    return useLocale.t(key, val);
-  };
-
   let tpl = "default";
 
   if (object.templateId) {
