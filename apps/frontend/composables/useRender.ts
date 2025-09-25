@@ -28,6 +28,7 @@ export default async function useRender(object: any, preview: boolean = false): 
   });
 
   return await useHttp.post(`/api/render${preview ? "?preview=true" : ""}`, {
-    html: final,
+    templateId: template.id,
+    data: object,
   });
 }

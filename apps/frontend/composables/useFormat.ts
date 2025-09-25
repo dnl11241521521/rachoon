@@ -2,13 +2,10 @@ import * as locale from "date-fns/locale";
 import * as dateFns from "date-fns";
 
 function toCurrency(value: any) {
-  const formatter = new Intl.NumberFormat(
-    useSettings().settings.general.locale,
-    {
-      style: "currency",
-      currency: useSettings().settings.general.currency,
-    },
-  );
+  const formatter = new Intl.NumberFormat(useSettings().settings.general.locale, {
+    style: "currency",
+    currency: useSettings().settings.general.currency,
+  });
 
   return formatter.format(Number(value));
 }
