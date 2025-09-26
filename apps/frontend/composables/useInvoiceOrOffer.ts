@@ -150,7 +150,7 @@ export default defineStore("invoiceOrOffer", () => {
     templates.value = await useApi().templates().getAll();
     const id = useRoute().params["id"] as string;
 
-    invoiceOrOffer.value, new InvoiceOrOffer();
+    invoiceOrOffer.value = new InvoiceOrOffer();
     if (id === "new") {
       invoiceOrOffer.value.number = await useApi().invoicesOrOffers(singularType()).getNextNumber();
       title.value = invoiceOrOffer.value.number;

@@ -52,7 +52,6 @@ export default defineStore("template", () => {
   async function duplicate(id: string) {
     loading.value = true;
     const duplicate = await useApi().templates().duplicate(id);
-    console.log(duplicate);
     useRouter().push(`/templates/${duplicate.id}`);
     loading.value = false;
   }
