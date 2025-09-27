@@ -6,25 +6,24 @@ useClient().form();
   <Loading v-if="useClient().loading" />
 
   <form @submit="useClient().save" v-else>
-    <FormHeader :title="useClient().client.name || `${useClient().client.id === null ? 'New' : 'Edit'} Client`" icon="fa-user">
+    <FormHeader :title="useClient().item?.name || `${useClient().item?.id === null ? 'New' : 'Edit'} Client`" icon="fa-user">
       <template #buttons>
-        <button v-if="useClient().client.id !== ''" class="btn btn-sm btn-error gap-2 btn-outline">
+        <button v-if="useClient().item?.id !== ''" class="btn btn-sm btn-error gap-2 btn-outline">
           <FaIcon icon="fa-solid fa-close" />
           Delete
         </button>
         <button class="btn btn-sm btn-neutral" type="submit">
           <FaIcon icon="fa-solid fa-save " />
-          {{ useClient().client.id === "" ? "Create Client" : "Save" }}
+          {{ useClient().item?.id === "" ? "Create Client" : "Save" }}
         </button>
       </template>
     </FormHeader>
 
     <ul v-if="useClient().hasErrors" class="border-2 border-warning rounded p-5 mt-5 mb-10">
-      <li v-for="e in useClient().client.errors()" class="text-warning">
+      <li v-for="e in useClient().item?.errors()" class="text-warning">
         {{ e }}
       </li>
     </ul>
-
     <FormSection title="Client Information" description="Manage your clients">
       <ClientFormBasic />
     </FormSection>

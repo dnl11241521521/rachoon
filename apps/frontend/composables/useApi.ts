@@ -6,6 +6,8 @@ import { User, type UserType } from "~~/models/user";
 import { Template, type TemplateType } from "~/models/template";
 import Paginator from "~/models/paginator";
 
+export type getAllFunc<T> = (page: number, perPage: number) => Promise<Paginator<T>>;
+
 export default function useApi() {
   return {
     clients: (endpoint: string = "/api/clients") => {

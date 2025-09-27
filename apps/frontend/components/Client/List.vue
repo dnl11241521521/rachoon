@@ -13,7 +13,7 @@ useClient().list();
         </NuxtLink>
       </template>
     </FormHeader>
-    <div class="text-center mt-20" v-if="useClient().clients.length === 0">
+    <div class="text-center mt-20" v-if="useClient().items.length === 0">
       <div class="prose">
         <FaIcon icon="fa-users" class="text-5xl" />
         <h1 class="mt-5">No clients</h1>
@@ -38,7 +38,7 @@ useClient().list();
             </tr>
           </thead>
           <tbody>
-            <tr class="hover" v-for="c in useClient().clients" :key="c.id">
+            <tr class="hover" v-for="c in useClient().items" :key="c.id">
               <td>
                 <NuxtLink :href="`/clients/${c.id}`" class="link">
                   {{ c.number }}

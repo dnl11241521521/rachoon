@@ -10,7 +10,7 @@
         </label>
         <input
           type="text"
-          v-model="useClient().client.name"
+          v-model="useClient().item.name"
           placeholder="Organization name"
           required
           class="input input-bordered input-sm w-full max-w-xs"
@@ -22,7 +22,7 @@
         </label>
         <input
           type="text"
-          v-model="useClient().client.data.info.addition"
+          v-model="useClient().item.data.info.addition"
           placeholder=""
           class="input input-bordered input-sm w-full max-w-xs"
         />
@@ -34,7 +34,7 @@
         <input
           type="text"
           placeholder="VAT-Number"
-          v-model="useClient().client.data.info.vat"
+          v-model="useClient().item.data.info.vat"
           class="input input-bordered input-sm w-full max-w-xs"
         />
       </div>

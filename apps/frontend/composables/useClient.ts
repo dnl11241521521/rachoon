@@ -1,93 +1,43 @@
 import { Client } from "~~/models/client";
 import _ from "lodash";
+import Base from "./_base";
 
-export default defineStore("client", () => {
-  const type = "clients";
-  const clients = ref<Client[]>([]);
-  const page = ref(1);
-  const perPage = ref(5);
-
-  const pages = ref(0);
-
-  const hasErrors = ref(false);
-
-  const singularType = type.slice(0, type.length - 1);
-
-  const title = ref();
-
-  const loading = ref(false);
-  const loadMoreLoading = ref(false);
-  const client = ref(new Client());
-
-  async function save(e: Event) {
-    e.preventDefault();
-    if (client.value.errors().length > 0) {
-      hasErrors.value = true;
-      return;
-    }
-    hasErrors.value = false;
-    const isNew = client.value.id === "";
-    const c = await useApi().clients().saveOrUpdate(client.value, !isNew);
+class ClientStore extends Base<Client> {
+  public save = async (e: Event) => {
+    super.save(e);
+    const isNew = this.item.value?.id === "";
+    const c = await useApi().clients().saveOrUpdate(this.item.value!, !isNew);
     if (isNew) {
-      useRouter().replace(`/${type}/${c.id}`);
+      useRouter().replace(`/${this.type}/${c.id}`);
     }
-  }
+  };
 
-  async function list(loadMore: boolean = false) {
-    if (!loadMore) {
-      page.value = 1;
-      loading.value = true;
-    }
-    const res = await useApi().clients().getAll(page.value, perPage.value);
-    pages.value = res.pages;
+  public list = async (loadMore: boolean = false) => {
+    super.list(loadMore);
+
+    const res = await useApi().clients().getAll(this.page.value, this.perPage.value);
+    this.pages.value = res.pages;
     if (loadMore) {
-      clients.value = clients.value.concat(res.rows);
+      this.items.value = this.items.value.concat(res.rows);
     } else {
-      clients.value = res.rows;
+      this.items.value = res.rows;
     }
-    loading.value = false;
-  }
+    this.loading.value = false;
+  };
 
-  function loadMore() {
-    if (hasMore()) {
-      page.value++;
-      list(true);
-    }
-  }
-
-  function hasMore() {
-    return page.value < pages.value;
-  }
-
-  async function form() {
+  public form = async () => {
     const id = useRoute().params["id"] as string;
 
-    loading.value = true;
-    client.value = new Client();
+    this.loading.value = true;
+    this.item.value = new Client();
     if (id === "new") {
-      client.value.number = await useApi().number("client").get();
-      title.value = client.value.number;
+      this.item.value.number = await useApi().number("client").get();
     } else {
-      client.value = _.mergeWith(client.value, await useApi().clients().get(id));
-      title.value = client.value.number;
+      this.item.value = _.mergeWith(this.item.value, await useApi().clients().get(id));
     }
 
-    loading.value = false;
-  }
-
-  return {
-    client,
-    save,
-    form,
-    loading,
-    loadMoreLoading,
-    title,
-    clients,
-    singularType,
-    list,
-    loadMore,
-    hasMore,
-    hasErrors,
-    pages,
+    this.loading.value = false;
   };
-});
+}
+
+export default defineStore("client", () => new ClientStore("clients"));
