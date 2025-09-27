@@ -1,5 +1,5 @@
 <template>
-  <div class="px-10 pt-5 flex gap-5 justify-between prose">
+  <div class="px-10 pt-5 flex gap-5 justify-between prose items-center">
     <h3 class="flex gap-3 items-center">
       <FaIcon :icon="`fa-solid ${$props.icon}`" />
       <span>{{ $props.title }}</span>

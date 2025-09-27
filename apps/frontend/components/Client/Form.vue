@@ -5,7 +5,7 @@ useClient().form();
 <template>
   <Loading v-if="useClient().loading" />
 
-  <form @submit="useClient().save">
+  <form @submit="useClient().save" v-else>
     <FormHeader :title="useClient().client.name || `${useClient().client.id === null ? 'New' : 'Edit'} Client`" icon="fa-user">
       <template #buttons>
         <button v-if="useClient().client.id !== ''" class="btn btn-sm btn-error gap-2 btn-outline">

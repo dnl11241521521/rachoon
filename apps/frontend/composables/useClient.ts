@@ -44,7 +44,6 @@ export default defineStore("client", () => {
       title.value = client.value.number;
     } else {
       client.value = _.mergeWith(client.value, await useApi().clients().get(id));
-      console.log(client.value);
       title.value = client.value.number;
     }
 

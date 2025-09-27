@@ -3,9 +3,10 @@
     <div class="grid grid-cols-2 gap-5">
       <div>
         <label class="label w-full max-w-xs">
-          <span class="label-text"
-            >Organization name <span class="text-error">*</span></span
-          >
+          <span class="label-text">
+            Organization name
+            <span class="text-error">*</span>
+          </span>
         </label>
         <input
           type="text"

@@ -35,8 +35,8 @@ export default defineStore("user", () => {
     const id = useRoute().params["id"] as string;
 
     loading.value = true;
+    user.value = new User();
     if (id === "new") {
-      user.value = new User();
       title.value = "New user";
     } else {
       user.value = _.mergeWith(user.value, await useApi().users().get(id));
