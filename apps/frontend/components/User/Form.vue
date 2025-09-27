@@ -1,14 +1,15 @@
 <script setup lang="ts">
-useUser().form();
+const controller = () => useUser();
+controller().form();
 const roles = ["admin", "user"];
 </script>
 
 <template>
-  <Loading v-if="useUser().loading" />
-  <form @submit="useUser().save" v-else>
-    <FormHeader :title="useUser().item.data.fullName" icon="fa-user">
+  <Loading v-if="controller().loading" />
+  <form @submit="controller().save" v-else>
+    <FormHeader :title="controller().item.data.fullName" icon="fa-user">
       <template #buttons>
-        <button v-if="useUser().item.id !== null" class="btn btn-sm btn-error gap-2 btn-outline">
+        <button v-if="controller().item.id !== null" class="btn btn-sm btn-error gap-2 btn-outline">
           <FaIcon icon="fa-solid fa-close" />
           Delete
         </button>
@@ -28,7 +29,7 @@ const roles = ["admin", "user"];
         </label>
         <input
           type="text"
-          v-model="useUser().item.data.username"
+          v-model="controller().item.data.username"
           placeholder="username"
           required
           class="input input-bordered input-sm w-full max-w-xs"
@@ -43,7 +44,7 @@ const roles = ["admin", "user"];
         </label>
         <input
           type="text"
-          v-model="useUser().item.data.fullName"
+          v-model="controller().item.data.fullName"
           placeholder=""
           required
           class="input input-bordered input-sm w-full max-w-xs"
@@ -59,7 +60,7 @@ const roles = ["admin", "user"];
         <input
           type="text"
           placeholder="mail@example.com"
-          v-model="useUser().item.email"
+          v-model="controller().item.email"
           required
           class="input input-bordered input-sm w-full max-w-xs"
         />
@@ -71,7 +72,7 @@ const roles = ["admin", "user"];
             <span class="text-red-700">*</span>
           </span>
         </label>
-        <select class="select select-bordered select-sm" v-model="useUser().item.role" required>
+        <select class="select select-bordered select-sm" v-model="controller().item.role" required>
           <option v-for="r in roles" :value="r">{{ r }}</option>
         </select>
       </div>

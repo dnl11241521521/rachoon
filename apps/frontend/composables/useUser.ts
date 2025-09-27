@@ -13,9 +13,7 @@ class UserStore extends Base<User> {
     }
   };
   list = async (loadMore: boolean = false) => {
-    await super.list(loadMore);
-    this.items.value = await useApi().users().getAll();
-    this.loading.value = false;
+    super.list(loadMore, useApi().users().getAll);
   };
 
   form = async () => {

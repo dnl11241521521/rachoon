@@ -13,16 +13,7 @@ class ClientStore extends Base<Client> {
   };
 
   list = async (loadMore: boolean = false) => {
-    super.list(loadMore);
-
-    const res = await useApi().clients().getAll(this.page.value, this.perPage.value);
-    this.pages.value = res.pages;
-    if (loadMore) {
-      this.items.value = this.items.value.concat(res.rows);
-    } else {
-      this.items.value = res.rows;
-    }
-    this.loading.value = false;
+    await super.list(loadMore, useApi().clients().getAll);
   };
 
   form = async () => {

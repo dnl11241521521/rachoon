@@ -56,8 +56,7 @@ class DocumentStore extends Base<Document> {
   };
 
   list = async (loadMore: boolean = false, props: { clientId: string } = { clientId: "" }) => {
-    super.list(loadMore);
-    this.items.value = await useApi().documents(this.singularType()).getAll(props.clientId);
+    super.list(loadMore, useApi().documents(this.singularType(), props.clientId).getAll);
     this.loading.value = false;
   };
 

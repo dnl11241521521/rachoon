@@ -1,9 +1,10 @@
 <script setup>
+const controller = () => useClient();
 watch(
-  computed(() => JSON.stringify(useClient().item.data.conditions.discount.valueType)),
+  computed(() => JSON.stringify(controller().item.data.conditions.discount.valueType)),
   () => {
-    if (useClient().item.data.conditions.discount.valueType === "percent" && useClient().item.data.conditions.discount.value > 100) {
-      useClient().item.data.conditions.discount.value = 100;
+    if (controller().item.data.conditions.discount.valueType === "percent" && controller().item.data.conditions.discount.value > 100) {
+      controller().item.data.conditions.discount.value = 100;
     }
   },
 );
@@ -21,7 +22,7 @@ watch(
             type="text"
             placeholder="0"
             v-maska="'#*'"
-            v-model="useClient().item.data.conditions.earlyPayment.days"
+            v-model="controller().item.data.conditions.earlyPayment.days"
             class="input input-bordered input-sm w-full max-w-xs"
           />
           <span class="text-sm text-info">days</span>
@@ -39,7 +40,7 @@ watch(
               mask: '#*.##',
               preprocessor: (val) => useFormat.max100(val),
             }"
-            v-model="useClient().item.data.conditions.earlyPayment.discount"
+            v-model="controller().item.data.conditions.earlyPayment.discount"
             class="input input-bordered input-sm w-full max-w-xs"
           />
           <span class="text-sm text-info">%</span>
@@ -54,7 +55,7 @@ watch(
             type="text"
             placeholder="14"
             v-maska="'#*'"
-            v-model="useClient().item.data.conditions.invoiceDueDays"
+            v-model="controller().item.data.conditions.invoiceDueDays"
             class="input input-bordered input-sm w-full max-w-xs"
           />
           <span class="text-sm text-info">days</span>
@@ -72,13 +73,13 @@ watch(
               v-maska="{
                 mask: '#*.##',
                 preprocessor: (val) => {
-                  return useClient().item.data.conditions.discount.valueType === 'percent' ? useFormat.max100(val) : val;
+                  return controller().item.data.conditions.discount.valueType === 'percent' ? useFormat.max100(val) : val;
                 },
               }"
-              v-model="useClient().item.data.conditions.discount.value"
+              v-model="controller().item.data.conditions.discount.value"
               class="input input-bordered input-sm w-full max-w-xs"
             />
-            <select class="select select-bordered select-sm bg-base-300" v-model="useClient().item.data.conditions.discount.valueType">
+            <select class="select select-bordered select-sm bg-base-300" v-model="controller().item.data.conditions.discount.valueType">
               <option selected value="percent">%</option>
               <option value="fixed">
                 {{ useCountries.mySymbol() }}
@@ -97,7 +98,7 @@ watch(
             placeholder="0"
             v-maska="'#*'"
             class="input input-bordered input-sm w-full max-w-xs"
-            v-model="useClient().item.data.conditions.rate"
+            v-model="controller().item.data.conditions.rate"
           />
           <span class="text-sm text-info">{{ useCountries.mySymbol() }}/h</span>
         </label>

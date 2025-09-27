@@ -1,11 +1,12 @@
 <script setup lang="ts">
+const controller = () => useClient();
 onMounted(() => {
-  useClient().list();
+  controller().list();
 });
 </script>
 
 <template>
-  <Loading v-if="useClient().loading" />
+  <Loading v-if="controller().loading" />
   <div v-else>
     <FormHeader title="Clients" icon="fa-user" :divider="false">
       <template #buttons>
@@ -15,7 +16,7 @@ onMounted(() => {
         </NuxtLink>
       </template>
     </FormHeader>
-    <div class="text-center mt-20" v-if="useClient().items.length === 0">
+    <div class="text-center mt-20" v-if="controller().items.length === 0">
       <div class="prose">
         <FaIcon icon="fa-users" class="text-5xl" />
         <h1 class="mt-5">No clients</h1>
@@ -40,7 +41,7 @@ onMounted(() => {
             </tr>
           </thead>
           <tbody>
-            <tr class="hover" v-for="c in useClient().items" :key="c.id">
+            <tr class="hover" v-for="c in controller().items" :key="c.id">
               <td>
                 <NuxtLink :href="`/clients/${c.id}`" class="link">
                   {{ c.number }}
@@ -70,9 +71,9 @@ onMounted(() => {
         </table>
       </div>
     </div>
-    <div class="mt-10 gap-2 flex justify-center" v-if="useClient().hasMore()">
-      <span :class="`loading loading-spinner loading-xs ${useClient().loading ? '' : 'opacity-0'}`"></span>
-      <button @click="useClient().loadMore()" class="btn btn-xs btn-neutral inline-block">Load more</button>
+    <div class="mt-10 gap-2 flex justify-center" v-if="controller().hasMore()">
+      <span :class="`loading loading-spinner loading-xs ${controller().loading ? '' : 'opacity-0'}`"></span>
+      <button @click="controller().loadMore()" class="btn btn-xs btn-neutral inline-block">Load more</button>
     </div>
   </div>
 </template>

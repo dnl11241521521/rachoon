@@ -16,9 +16,7 @@ class TemplateStore extends Base<Template> {
   };
 
   list = async (loadMore: boolean = false) => {
-    super.list(loadMore);
-    this.items.value = await useApi().templates().getAll();
-    this.loading.value = false;
+    super.list(loadMore, useApi().templates().getAll);
   };
 
   get = async (id: string): Promise<Template> => {

@@ -1,3 +1,6 @@
+<script setup lang="ts">
+const controller = () => useClient();
+</script>
 <template>
   <div>
     <div class="grid grid-cols-2 gap-5">
@@ -11,7 +14,7 @@
         <input
           type="text"
           placeholder="Street"
-          v-model="useClient().item.data.address.street"
+          v-model="controller().item.data.address.street"
           required
           class="input input-bordered input-sm w-full max-w-xs"
         />
@@ -26,7 +29,7 @@
         <input
           type="text"
           placeholder="ZIP"
-          v-model="useClient().item.data.address.zip"
+          v-model="controller().item.data.address.zip"
           required
           class="input input-bordered input-sm w-full max-w-xs"
         />
@@ -41,7 +44,7 @@
         <input
           type="text"
           placeholder="City"
-          v-model="useClient().item.data.address.city"
+          v-model="controller().item.data.address.city"
           required
           class="input input-bordered input-sm w-full max-w-xs"
         />
@@ -53,7 +56,7 @@
             <span class="text-red-700">*</span>
           </span>
         </label>
-        <select class="select select-bordered select-sm bg-base-300 w-full max-w-xs" v-model="useClient().item.data.address.country">
+        <select class="select select-bordered select-sm bg-base-300 w-full max-w-xs" v-model="controller().item.data.address.country">
           <option v-for="c in useCountries.countries" :value="c.country">
             {{ c.country }}
           </option>

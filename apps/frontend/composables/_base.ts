@@ -1,4 +1,5 @@
 import { type IBase } from "@repo/common/Base";
+import type { getAllFunc } from "./useApi";
 
 export default class Base<T extends IBase> {
   constructor(type: string) {
@@ -13,7 +14,7 @@ export default class Base<T extends IBase> {
     return res;
   };
 
-  items = ref<T[]>([]);
+  items: Ref<T[]> = ref([]);
   item = ref<T>();
   hasErrors = ref(false);
 
@@ -32,11 +33,19 @@ export default class Base<T extends IBase> {
     this.hasErrors.value = false;
   }
 
-  async list(loadMore: boolean = false, props: any | null = null) {
+  async list(loadMore: boolean = false, loadAllFunc: getAllFunc<T>) {
     if (!loadMore) {
       this.page.value = 1;
       this.loading.value = true;
     }
+    const res = await loadAllFunc(this.page.value, this.perPage.value);
+    this.pages.value = res.pages;
+    if (loadMore) {
+      this.items.value = [...this.items.value, ...res.rows];
+    } else {
+      this.items.value = res.rows as T[];
+    }
+    this.loading.value = false;
   }
 
   hasMore = () => {

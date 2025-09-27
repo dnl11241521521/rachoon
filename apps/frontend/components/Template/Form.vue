@@ -1,5 +1,6 @@
 <script setup lang="ts">
-useTemplate().form();
+const controller = () => useTemplate();
+controller().form();
 
 import { VAceEditor } from "vue3-ace-editor";
 import "ace-builds/src-noconflict/mode-nunjucks";
@@ -20,29 +21,29 @@ const vars = ref(JSON.stringify(variables, null, 2));
 </script>
 
 <template>
-  <Loading v-if="useTemplate().loading" />
-  <form @submit="useTemplate().save" v-else>
+  <Loading v-if="controller().loading" />
+  <form @submit="controller().save" v-else>
     <div>
       <FormHeader title="Template Editor" icon="fa-palette">
         <template #buttons>
           <button class="btn btn-sm btn-neutral">
             <FaIcon icon="fa-solid fa-eye" />
           </button>
-          <button type="button" @click="useTemplate().duplicate(useTemplate().item.id)" class="btn btn-sm btn-neutral">
+          <button type="button" @click="controller().duplicate(controller().item.id)" class="btn btn-sm btn-neutral">
             <FaIcon icon="fa-solid fa-copy" />
           </button>
-          <button v-if="!useTemplate().item.isGlobal" type="button" class="btn btn-sm btn-error btn-outline">
+          <button v-if="!controller().item.isGlobal" type="button" class="btn btn-sm btn-error btn-outline">
             <FaIcon icon="fa-solid fa-close" />
             Delete
           </button>
-          <button v-if="!useTemplate().item.isGlobal" type="submit" class="btn btn-sm btn-neutral">
+          <button v-if="!controller().item.isGlobal" type="submit" class="btn btn-sm btn-neutral">
             <FaIcon icon="fa-solid fa-save" />
-            {{ useTemplate().item.id === "" ? "Create Template" : "Save" }}
+            {{ controller().item.id === "" ? "Create Template" : "Save" }}
           </button>
         </template>
       </FormHeader>
-      <ul v-if="useTemplate().hasErrors" class="border-2 border-warning rounded p-5 mt-5 mb-10">
-        <li v-for="e in useTemplate().item.errors()" class="text-warning">
+      <ul v-if="controller().hasErrors" class="border-2 border-warning rounded p-5 mt-5 mb-10">
+        <li v-for="e in controller().item.errors()" class="text-warning">
           {{ e }}
         </li>
       </ul>
@@ -57,14 +58,14 @@ const vars = ref(JSON.stringify(variables, null, 2));
           </label>
           <input
             type="text"
-            v-model="useTemplate().item.title"
+            v-model="controller().item.title"
             placeholder="Template name"
             required
             class="input input-bordered input-sm w-full max-w-xs"
           />
           <div class="form-control w-24 mt-3">
             <label class="cursor-pointer label">
-              <input type="checkbox" v-model="useTemplate().item.default" class="checkbox checkbox-sm" />
+              <input type="checkbox" v-model="controller().item.default" class="checkbox checkbox-sm" />
               <span class="label-text">Default</span>
             </label>
           </div>
@@ -85,21 +86,21 @@ const vars = ref(JSON.stringify(variables, null, 2));
         </div>
       </FormSection>
       <FormSection title="Custom Text before table" description="Add custom text before the item table">
-        <Editor v-model="useTemplate().item.data.texts.beforeTable" />
+        <Editor v-model="controller().item.data.texts.beforeTable" />
       </FormSection>
       <FormSection title="Custom Text after table" description="Add custom text after the item table">
-        <Editor v-model="useTemplate().item.data.texts.afterTable" />
+        <Editor v-model="controller().item.data.texts.afterTable" />
       </FormSection>
       <div class="flex gap-3 px-10 mb-14 mt-5 w-full">
-        <Editor class="w-1/4 h-72" v-model="useTemplate().item.data.columns.first" title="Column First" />
-        <Editor class="w-1/4 h-72" v-model="useTemplate().item.data.columns.second" title="Column Second" />
-        <Editor class="w-1/4 h-72" v-model="useTemplate().item.data.columns.third" title="Column Third" />
-        <Editor class="w-1/4 h-72" v-model="useTemplate().item.data.columns.fourth" title="Column Fourth" />
+        <Editor class="w-1/4 h-72" v-model="controller().item.data.columns.first" title="Column First" />
+        <Editor class="w-1/4 h-72" v-model="controller().item.data.columns.second" title="Column Second" />
+        <Editor class="w-1/4 h-72" v-model="controller().item.data.columns.third" title="Column Third" />
+        <Editor class="w-1/4 h-72" v-model="controller().item.data.columns.fourth" title="Column Fourth" />
       </div>
       <div class="divider"></div>
 
       <FormSection title="Custom HTML" description="Customize the HTML structure of your template.">
-        <v-ace-editor v-model:value="useTemplate().item.html" lang="nunjucks" theme="dracula" style="height: 800px" />
+        <v-ace-editor v-model:value="controller().item.html" lang="nunjucks" theme="dracula" style="height: 800px" />
       </FormSection>
       <FormSection title="Variables" description="Available variables for your templates.">
         <v-ace-editor :readonly="true" v-model:value="vars" lang="json" theme="dracula" style="height: 800px" />

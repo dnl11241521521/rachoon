@@ -1,3 +1,6 @@
+<script setup lang="ts">
+const controller = () => useClient();
+</script>
 <template>
   <div>
     <div class="grid grid-cols-2 gap-5">
@@ -10,7 +13,7 @@
         </label>
         <input
           type="text"
-          v-model="useClient().item.name"
+          v-model="controller().item.name"
           placeholder="Organization name"
           required
           class="input input-bordered input-sm w-full max-w-xs"
@@ -22,7 +25,7 @@
         </label>
         <input
           type="text"
-          v-model="useClient().item.data.info.addition"
+          v-model="controller().item.data.info.addition"
           placeholder=""
           class="input input-bordered input-sm w-full max-w-xs"
         />
@@ -34,7 +37,7 @@
         <input
           type="text"
           placeholder="VAT-Number"
-          v-model="useClient().item.data.info.vat"
+          v-model="controller().item.data.info.vat"
           class="input input-bordered input-sm w-full max-w-xs"
         />
       </div>

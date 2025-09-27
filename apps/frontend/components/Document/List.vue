@@ -12,24 +12,24 @@ const props = defineProps({
 
 const modal = ref(false);
 const offer = ref(new Document());
-
-useDocument().list(props.clientId);
+const controller = () => useDocument();
+controller().list(false, props.clientId);
 </script>
 
 <template>
-  <Loading v-if="useDocument().loading" />
+  <Loading v-if="controller().loading" />
 
   <div v-else>
     <FormHeader
-      :title="useDocument().type(true)"
-      :icon="useDocument().type() === 'offers' ? 'fa-file-invoice' : 'fa-file-invoice-dollar'"
+      :title="controller().type(true)"
+      :icon="controller().type() === 'offers' ? 'fa-file-invoice' : 'fa-file-invoice-dollar'"
       :divider="false"
     >
       <template #buttons>
-        <NuxtLink class="btn btn-sm btn-neutral gap-2 no-underline" :href="`/${useDocument().type()}/new`">
+        <NuxtLink class="btn btn-sm btn-neutral gap-2 no-underline" :href="`/${controller().type()}/new`">
           <FaIcon icon="fa-solid fa-plus-circle " />
           New
-          {{ useDocument().singularType() }}
+          {{ controller().singularType() }}
         </NuxtLink>
       </template>
     </FormHeader>
@@ -42,23 +42,23 @@ useDocument().list(props.clientId);
         </label>
       </label>
     </div>
-    <div v-if="(!list || list.length === 0) && useDocument().items.length === 0" class="text-center mt-20">
+    <div v-if="(!list || list.length === 0) && controller().items.length === 0" class="text-center mt-20">
       <div class="prose">
         <FaIcon
-          :icon="useDocument().type() === 'offers' ? 'fa-solid fa-file-invoice' : 'fa-solid fa-file-invoice-dollar'"
+          :icon="controller().type() === 'offers' ? 'fa-solid fa-file-invoice' : 'fa-solid fa-file-invoice-dollar'"
           class="text-5xl text-accent"
         />
-        <h1 class="!text-accent mt-5">No {{ useDocument().type() }}</h1>
+        <h1 class="!text-accent mt-5">No {{ controller().type() }}</h1>
         <p>
           It appears you have
-          <strong class="text-accent">no {{ useDocument().type() }}</strong>
+          <strong class="text-accent">no {{ controller().type() }}</strong>
           created. Go ahead and create one.
         </p>
       </div>
       <div class="mt-10">
-        <NuxtLink :href="'/' + useDocument().type() + '/new'" class="btn btn-primary btn-sm gap-2">
+        <NuxtLink :href="'/' + controller().type() + '/new'" class="btn btn-primary btn-sm gap-2">
           <FaIcon icon="fa-solid fa-plus-circle " />
-          new {{ useDocument().singularType() }}
+          new {{ controller().singularType() }}
         </NuxtLink>
       </div>
     </div>
@@ -70,7 +70,7 @@ useDocument().list(props.clientId);
             <th>#</th>
             <th>Client</th>
             <th>
-              {{ useDocument().type() === "invoices" ? "Offer" : "Invoiced" }}
+              {{ controller().type() === "invoices" ? "Offer" : "Invoiced" }}
             </th>
             <th width="50"></th>
             <th>Date</th>
@@ -80,9 +80,9 @@ useDocument().list(props.clientId);
           </tr>
         </thead>
         <tbody>
-          <tr class="hover" v-for="io in list || useDocument().items" :key="io.id">
+          <tr class="hover" v-for="io in list || controller().items" :key="io.id">
             <td width="200">
-              <NuxtLink :href="'/' + (useDocument().type() || type) + '/' + io.id" class="link">
+              <NuxtLink :href="'/' + (controller().type() || type) + '/' + io.id" class="link">
                 {{ io.number }}
               </NuxtLink>
               <br />
@@ -118,7 +118,7 @@ useDocument().list(props.clientId);
               <span
                 class="btn btn-circle btn-xs mr-2"
                 :class="io.status === 'pending' ? (datefns.isPast(io.data.dueDate) ? 'btn-error' : '') : 'btn-success'"
-                @click="useDocument().setStatus(io)"
+                @click="controller().setStatus(io)"
               >
                 <FaIcon :icon="io.status == 'pending' ? 'fa-regular fa-clock' : 'fa-check'" />
               </span>
@@ -145,7 +145,7 @@ useDocument().list(props.clientId);
             <td width="50" class="text-right">
               <ContextMenu>
                 <li>
-                  <NuxtLink href="/#" @click="useDocument().download(io)">
+                  <NuxtLink href="/#" @click="controller().download(io)">
                     <FaIcon icon="fa-regular fa-file-pdf" />
                     Download PDF
                   </NuxtLink>

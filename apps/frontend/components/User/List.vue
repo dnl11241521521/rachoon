@@ -1,11 +1,10 @@
 <script setup lang="ts">
-onMounted(() => {
-  useUser().list();
-});
+const controller = () => useUser();
+controller().list();
 </script>
 
 <template>
-  <Loading v-if="useUser().loading" />
+  <Loading v-if="controller().loading" />
 
   <div v-else>
     <FormHeader title="Users" icon="fa-user" :divider="false">
@@ -17,7 +16,7 @@ onMounted(() => {
       </template>
     </FormHeader>
 
-    <div class="text-center mt-20" v-if="useUser().items.length === 0">
+    <div class="text-center mt-20" v-if="controller().items.length === 0">
       <div class="prose">
         <FaIcon icon="fa-users" class="text-5xl text-accent" />
         <h1 class="!text-accent mt-5">No Users</h1>
@@ -46,7 +45,7 @@ onMounted(() => {
             </tr>
           </thead>
           <tbody>
-            <tr class="hover" v-for="u in useUser().items" :key="u.id">
+            <tr class="hover" v-for="u in controller().items" :key="u.id">
               <td>
                 <div class="avatar placeholder">
                   <div class="bg-success text-black rounded-full w-8">

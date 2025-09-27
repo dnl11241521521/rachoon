@@ -1,17 +1,18 @@
 <script setup lang="ts">
-useDocument().form();
+const controller = () => useDocument();
+controller().form();
 onMounted(() => {
   watch(
     // fixes the problem where old,new values are the same
     [
-      computed(() => JSON.stringify(useDocument().item?.data.positions)),
-      computed(() => JSON.stringify(useDocument().item?.data.discountsCharges)),
-      computed(() => JSON.stringify(useDocument().item?.data.taxOption)),
-      computed(() => JSON.stringify(useDocument().item?.data.date)),
-      computed(() => JSON.stringify(useDocument().item?.data.dueDate)),
+      computed(() => JSON.stringify(controller().item?.data.positions)),
+      computed(() => JSON.stringify(controller().item?.data.discountsCharges)),
+      computed(() => JSON.stringify(controller().item?.data.taxOption)),
+      computed(() => JSON.stringify(controller().item?.data.date)),
+      computed(() => JSON.stringify(controller().item?.data.dueDate)),
     ],
     () => {
-      useDocument().updated();
+      controller().updated();
     },
   );
 });
@@ -23,18 +24,18 @@ definePageMeta({
 });
 
 async function save() {
-  await useDocument().save();
+  await controller().save();
 }
 </script>
 <template>
-  <Loading v-if="useDocument().loading" />
+  <Loading v-if="controller().loading" />
 
   <div v-else>
     <FormHeader :title="`Invoice`" icon="fa-file-invoice-dollar">
       <template #buttons>
-        <select class="select select-bordered select-sm bg-base-300 max-w-56" v-model="useDocument().item.templateId">
+        <select class="select select-bordered select-sm bg-base-300 max-w-56" v-model="controller().item.templateId">
           <option value="" key="default">Default Template</option>
-          <option v-for="u in useDocument().templates" :value="u.id" :key="u.title">
+          <option v-for="u in controller().templates" :value="u.id" :key="u.title">
             {{ u.title }}
           </option>
         </select>
@@ -43,16 +44,16 @@ async function save() {
         </label>
         <button
           class="btn btn-sm btn-neutral"
-          @click="useDocument().download()"
-          v-if="useDocument().item.id !== '' && useDocument().mustSave <= 1"
+          @click="controller().download()"
+          v-if="controller().item.id !== '' && controller().mustSave <= 1"
         >
           <FaIcon icon="fa-solid fa-file-pdf" />
         </button>
-        <button class="btn btn-sm btn-neutral" @click="useDocument().duplicate(useDocument().item.id)">
+        <button class="btn btn-sm btn-neutral" @click="controller().duplicate(controller().item.id)">
           <FaIcon icon="fa-solid fa-copy " />
         </button>
 
-        <button class="btn btn-sm btn-error gap-2 btn-outline" v-if="useDocument().item.id !== ''" @click="useDocument().del()">
+        <button class="btn btn-sm btn-error gap-2 btn-outline" v-if="controller().item.id !== ''" @click="controller().del()">
           <FaIcon icon="fa-solid fa-close" />
           Delete
         </button>
@@ -72,8 +73,8 @@ async function save() {
       </label>
     </div>
 
-    <ul v-if="useDocument().hasErrors" class="border-2 border-warning rounded p-5 mt-5 mb-10 mx-5">
-      <li v-for="e in useDocument().item.errors()" class="text-warning">
+    <ul v-if="controller().hasErrors" class="border-2 border-warning rounded p-5 mt-5 mb-10 mx-5">
+      <li v-for="e in controller().item.errors()" class="text-warning">
         {{ e }}
       </li>
     </ul>
@@ -87,16 +88,16 @@ async function save() {
           <DocumentClientAutoComplete required />
         </div>
 
-        <div class="prose text-sm" v-if="useDocument().item.client">
-          <h3 class="m-0 p-0">{{ useDocument().item.client.name }}</h3>
+        <div class="prose text-sm" v-if="controller().item.client">
+          <h3 class="m-0 p-0">{{ controller().item.client.name }}</h3>
           <p class="m-0 p-0">
             <br />
-            {{ useDocument().item.client.data.address.street }}
+            {{ controller().item.client.data.address.street }}
             <br />
-            {{ useDocument().item.client.data.address.zip }}
-            {{ useDocument().item.client.data.address.city }}
+            {{ controller().item.client.data.address.zip }}
+            {{ controller().item.client.data.address.city }}
             <br />
-            {{ useDocument().item.client.data.address.country }}
+            {{ controller().item.client.data.address.country }}
             <br />
           </p>
         </div>
@@ -105,9 +106,9 @@ async function save() {
       <div class="flex w-1/3 flex-row justify-end">
         <div class="">
           <div class="prose">
-            <h2 v-if="useDocument().offerToConvert.id !== ''" class="mt-0 !text-error">
+            <h2 v-if="controller().offerToConvert.id !== ''" class="mt-0 !text-error">
               {{ useRoute().query.option }} of
-              {{ useDocument().offerToConvert.number }}
+              {{ controller().offerToConvert.number }}
             </h2>
           </div>
           <label class="label">
@@ -116,22 +117,22 @@ async function save() {
               Invoice date:
             </span>
           </label>
-          <DatePicker v-model="useDocument().item.data.date" />
+          <DatePicker v-model="controller().item.data.date" />
           <label class="label">
             <span class="label-text">
               <FaIcon icon="fa-solid fa-calendar-check" />
               Due date:
             </span>
           </label>
-          <DatePicker v-model="useDocument().item.data.dueDate" />
+          <DatePicker v-model="controller().item.data.dueDate" />
         </div>
       </div>
     </div>
-    <div class="alert px-5 text-error" v-if="useDocument().item.disabled()">
+    <div class="alert px-5 text-error" v-if="controller().item.disabled()">
       <FaIcon icon="fa-solid fa-triangle-exclamation" />
       <p>
         This invoice cannot be modified.
-        <span v-if="useDocument().item.convertedFromOffer()">It's been converted from an offer.</span>
+        <span v-if="controller().item.convertedFromOffer()">It's been converted from an offer.</span>
       </p>
     </div>
     <DocumentItems />
