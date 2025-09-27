@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Format from "@repo/common/Format";
-const invoiceOrOffer = useInvoiceOrOffer().invoiceOrOffer;
+const invoiceOrOffer = useInvoiceOrOffer().item;
 </script>
 
 <template>

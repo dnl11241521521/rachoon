@@ -2,21 +2,28 @@ import { type IBase } from "@repo/common/Base";
 
 export default class Base<T extends IBase> {
   constructor(type: string) {
-    this.type.value = type;
+    this.list = this.list.bind(this);
+    this.save = this.save.bind(this);
+    this.loadMore = this.loadMore.bind(this);
   }
 
-  public items = ref<T[]>([]);
-  public item = ref<T>();
-  public hasErrors = ref(false);
+  type = (firstToUpper = false) => {
+    let res = useRoute().path.split("/")[1];
+    if (firstToUpper) res = res.charAt(0).toUpperCase() + res.slice(1);
+    return res;
+  };
 
-  public page = ref(1);
-  public type = ref("");
-  public pages = ref(0);
-  public loading = ref(false);
-  public perPage = ref(5);
-  public singularType = () => this.type.value.slice(0, this.type.value.length - 1);
+  items = ref<T[]>([]);
+  item = ref<T>();
+  hasErrors = ref(false);
 
-  public async save(e: Event) {
+  page = ref(1);
+  pages = ref(0);
+  loading = ref(false);
+  perPage = ref(5);
+  singularType = () => this.type().slice(0, this.type().length - 1);
+
+  async save(e: Event) {
     e.preventDefault();
     if (this.item.value!.errors().length > 0) {
       this.hasErrors.value = true;
@@ -25,18 +32,18 @@ export default class Base<T extends IBase> {
     this.hasErrors.value = false;
   }
 
-  public async list(loadMore: boolean = false) {
+  async list(loadMore: boolean = false, props: any | null = null) {
     if (!loadMore) {
       this.page.value = 1;
       this.loading.value = true;
     }
   }
 
-  public hasMore = () => {
+  hasMore = () => {
     return this.page.value < this.pages.value;
   };
 
-  public loadMore = () => {
+  loadMore = () => {
     if (this.hasMore()) {
       this.page.value++;
       this.list(true);

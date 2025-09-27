@@ -1,61 +1,34 @@
 import { User } from "~~/models/user";
 import _ from "lodash";
+import Base from "./_base";
 
-export default defineStore("user", () => {
-  const type = "users";
-  let users = ref<User[]>([]);
-  const user = ref(new User());
-  const title = ref();
-  const password = ref(null);
-  const passwordRepeat = ref(null);
-  const singularType = type.slice(0, type.length - 1);
+class UserStore extends Base<User> {
+  save = async (e: Event) => {
+    super.save(e);
 
-  const loading = ref(false);
-
-  async function save(e: Event) {
-    e.preventDefault();
-
-    const isNew = user.value.id === null;
-    if (password.value !== passwordRepeat.value) return;
-    const u = await useApi()
-      .users()
-      .saveOrUpdate(isNew ? { ...user.value, password: password.value } : user.value, !isNew);
+    const isNew = this.item.value?.id === null;
+    const u = await useApi().users().saveOrUpdate(this.item.value!, !isNew);
     if (isNew) {
-      useRouter().replace(`/${type}/${u.id}`);
+      useRouter().replace(`/${this.type}/${u.id}`);
     }
-  }
+  };
+  list = async (loadMore: boolean = false) => {
+    await super.list(loadMore);
+    this.items.value = await useApi().users().getAll();
+    this.loading.value = false;
+  };
 
-  async function list() {
-    loading.value = true;
-    users.value = await useApi().users().getAll();
-    loading.value = false;
-  }
-
-  async function form() {
+  form = async () => {
     const id = useRoute().params["id"] as string;
 
-    loading.value = true;
-    user.value = new User();
-    if (id === "new") {
-      title.value = "New user";
-    } else {
-      user.value = _.mergeWith(user.value, await useApi().users().get(id));
-      title.value = user.value.data.fullName;
+    this.loading.value = true;
+    this.item.value = new User();
+    if (id !== "new") {
+      this.item.value = _.mergeWith(this.item.value, await useApi().users().get(id));
     }
 
-    loading.value = false;
-  }
-
-  return {
-    users,
-    user,
-    save,
-    form,
-    loading,
-    singularType,
-    password,
-    passwordRepeat,
-    list,
-    title,
+    this.loading.value = false;
   };
-});
+}
+
+export default defineStore("user", () => new UserStore("users"));

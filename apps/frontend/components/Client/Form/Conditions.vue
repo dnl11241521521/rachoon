@@ -1,11 +1,11 @@
 <script setup>
 watch(
   computed(() => JSON.stringify(useClient().item.data.conditions.discount.valueType)),
-  // () => {
-  //   if (useClient().item.data.conditions.discount.valueType === "percent" && useClient().item.data.conditions.discount.value > 100) {
-  //     useClient().item.data.conditions.discount.value = 100;
-  //   }
-  // },
+  () => {
+    if (useClient().item.data.conditions.discount.valueType === "percent" && useClient().item.data.conditions.discount.value > 100) {
+      useClient().item.data.conditions.discount.value = 100;
+    }
+  },
 );
 </script>
 

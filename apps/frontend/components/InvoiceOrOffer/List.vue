@@ -42,7 +42,7 @@ useInvoiceOrOffer().list(props.clientId);
         </label>
       </label>
     </div>
-    <div v-if="(!list || list.length === 0) && useInvoiceOrOffer().invoicesOrOffers.length === 0" class="text-center mt-20">
+    <div v-if="(!list || list.length === 0) && useInvoiceOrOffer().items.length === 0" class="text-center mt-20">
       <div class="prose">
         <FaIcon
           :icon="useInvoiceOrOffer().type() === 'offers' ? 'fa-solid fa-file-invoice' : 'fa-solid fa-file-invoice-dollar'"
@@ -80,7 +80,7 @@ useInvoiceOrOffer().list(props.clientId);
           </tr>
         </thead>
         <tbody>
-          <tr class="hover" v-for="io in list || useInvoiceOrOffer().invoicesOrOffers" :key="io.id">
+          <tr class="hover" v-for="io in list || useInvoiceOrOffer().items" :key="io.id">
             <td width="200">
               <NuxtLink :href="'/' + (useInvoiceOrOffer().type() || type) + '/' + io.id" class="link">
                 {{ io.number }}

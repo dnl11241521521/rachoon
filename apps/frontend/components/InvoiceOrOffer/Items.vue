@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const invoiceOrOffer = useInvoiceOrOffer().invoiceOrOffer;
+const invoiceOrOffer = useInvoiceOrOffer().item;
 const positions = invoiceOrOffer.data.positions;
 const discountsCharges = invoiceOrOffer.data.discountsCharges;
 </script>

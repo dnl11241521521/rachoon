@@ -3,7 +3,7 @@ import _ from "lodash";
 import Base from "./_base";
 
 class ClientStore extends Base<Client> {
-  public save = async (e: Event) => {
+  save = async (e: Event) => {
     super.save(e);
     const isNew = this.item.value?.id === "";
     const c = await useApi().clients().saveOrUpdate(this.item.value!, !isNew);
@@ -12,7 +12,7 @@ class ClientStore extends Base<Client> {
     }
   };
 
-  public list = async (loadMore: boolean = false) => {
+  list = async (loadMore: boolean = false) => {
     super.list(loadMore);
 
     const res = await useApi().clients().getAll(this.page.value, this.perPage.value);
@@ -25,7 +25,7 @@ class ClientStore extends Base<Client> {
     this.loading.value = false;
   };
 
-  public form = async () => {
+  form = async () => {
     const id = useRoute().params["id"] as string;
 
     this.loading.value = true;

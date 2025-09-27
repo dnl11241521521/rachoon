@@ -6,9 +6,9 @@ const roles = ["admin", "user"];
 <template>
   <Loading v-if="useUser().loading" />
   <form @submit="useUser().save" v-else>
-    <FormHeader :title="useUser().user.data.fullName" icon="fa-user">
+    <FormHeader :title="useUser().item.data.fullName" icon="fa-user">
       <template #buttons>
-        <button v-if="useUser().user.id !== null" class="btn btn-sm btn-error gap-2 btn-outline">
+        <button v-if="useUser().item.id !== null" class="btn btn-sm btn-error gap-2 btn-outline">
           <FaIcon icon="fa-solid fa-close" />
           Delete
         </button>
@@ -28,7 +28,7 @@ const roles = ["admin", "user"];
         </label>
         <input
           type="text"
-          v-model="useUser().user.data.username"
+          v-model="useUser().item.data.username"
           placeholder="username"
           required
           class="input input-bordered input-sm w-full max-w-xs"
@@ -43,7 +43,7 @@ const roles = ["admin", "user"];
         </label>
         <input
           type="text"
-          v-model="useUser().user.data.fullName"
+          v-model="useUser().item.data.fullName"
           placeholder=""
           required
           class="input input-bordered input-sm w-full max-w-xs"
@@ -59,7 +59,7 @@ const roles = ["admin", "user"];
         <input
           type="text"
           placeholder="mail@example.com"
-          v-model="useUser().user.email"
+          v-model="useUser().item.email"
           required
           class="input input-bordered input-sm w-full max-w-xs"
         />
@@ -71,7 +71,7 @@ const roles = ["admin", "user"];
             <span class="text-red-700">*</span>
           </span>
         </label>
-        <select class="select select-bordered select-sm" v-model="useUser().user.role" required>
+        <select class="select select-bordered select-sm" v-model="useUser().item.role" required>
           <option v-for="r in roles" :value="r">{{ r }}</option>
         </select>
       </div>

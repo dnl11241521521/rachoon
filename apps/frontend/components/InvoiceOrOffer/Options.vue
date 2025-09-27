@@ -1,6 +1,6 @@
 <script setup>
-const invoiceOrOffer = useInvoiceOrOffer().invoiceOrOffer
-const taxOptions = useSettings().settings.taxes.options
+const invoiceOrOffer = useInvoiceOrOffer().item;
+const taxOptions = useSettings().settings.taxes.options;
 </script>
 
 <template>

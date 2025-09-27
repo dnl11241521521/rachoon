@@ -3,7 +3,7 @@ import * as dateFns from "date-fns";
 const date = dateFns.format(Date.now(), "yyyy-MM-dd H:m:s");
 </script>
 <template>
-  <FormSection title="Locale" icon="fa-globe" description="Set currency and Date format">
+  <FormSection title="Locale" description="Set currency and Date format">
     <div class="flex">
       <div class="w-1/2">
         <div>

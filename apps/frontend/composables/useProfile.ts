@@ -1,30 +1,30 @@
 import { User } from "~~/models/user";
 import _ from "lodash";
 
-export default defineStore("profile", () => {
-  let me = ref(new User());
-  const loading = ref(false);
-  const newPassword = ref(null);
-  const newPasswordRepeat = ref(null);
-  const init = async () => {
-    loading.value = true;
+class ProfileStore {
+  me = ref<User>(new User());
+  loading = ref(false);
+  newPassword = ref(null);
+  newPasswordRepeat = ref(null);
+  init = async () => {
+    this.loading.value = true;
     try {
-      if (useAuth().key() && me.value.id === null) {
-        me.value = _.mergeWith(me.value, await useApi().profile().get());
+      if (useAuth().key() && this.me.value.id === null) {
+        this.me.value = _.mergeWith(this.me.value, await useApi().profile().get());
         useTemplate().getDefault();
       }
     } catch (e) {
       console.error("useProfile", e);
     }
-    loading.value = false;
+    this.loading.value = false;
   };
 
-  async function save(e: Event) {
+  save = async (e: Event) => {
     e.preventDefault();
-    useApi().profile().save(me.value);
-  }
+    useApi().profile().save(this.me.value);
+  };
 
-  async function selectFile(e: any) {
+  selectFile = async (e: any) => {
     const file = e.target.files[0];
 
     /* Make sure file exists */
@@ -45,24 +45,15 @@ export default defineStore("profile", () => {
       });
       return;
     } else {
-      useProfile().me.data.avatar = data as string;
+      this.me.data.avatar = data as string;
     }
-  }
-
-  async function savePassword(e: Event) {
-    e.preventDefault();
-    if (newPassword.value !== newPasswordRepeat.value) return;
-    useApi().profile().savePassword(newPassword.value);
-  }
-
-  return {
-    me,
-    newPassword,
-    newPasswordRepeat,
-    init,
-    save,
-    savePassword,
-    selectFile,
-    loading,
   };
-});
+
+  savePassword = (e: Event) => {
+    e.preventDefault();
+    if (this.newPassword.value !== this.newPasswordRepeat.value) return;
+    useApi().profile().savePassword(this.newPassword.value);
+  };
+}
+
+export default defineStore("profile", () => new ProfileStore());

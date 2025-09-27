@@ -2,7 +2,7 @@
 const props = defineProps({
   index: { type: Number, required: true },
 });
-const invoiceOrOffer = useInvoiceOrOffer().invoiceOrOffer;
+const invoiceOrOffer = useInvoiceOrOffer().item;
 const position = invoiceOrOffer.data.positions[props.index];
 const taxRates = useProfile().me.organization.settings.taxes.rates;
 const units = useProfile().me.organization.settings.units;

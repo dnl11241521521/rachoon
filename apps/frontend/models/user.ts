@@ -1,5 +1,6 @@
 import { Organization } from "~~/models/organization";
 import _ from "lodash";
+import type { IBase } from "@repo/common/Base";
 interface UserData {
   username: string;
   fullName: string;
@@ -18,7 +19,7 @@ type UserType = {
   role: string;
 };
 
-class User implements UserType {
+class User implements UserType, IBase {
   id: string = null;
   role: string = "";
   password: string = null;
@@ -61,6 +62,10 @@ class User implements UserType {
   }
   public toJSON() {
     return { ...this };
+  }
+
+  public errors(): [] {
+    return [];
   }
 }
 

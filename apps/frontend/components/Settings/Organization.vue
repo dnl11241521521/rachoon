@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FormSection title="Organization" icon="fa-solid fa-building" description="Organization name and VAT number">
+    <FormSection title="Organization" description="Organization name and VAT number">
       <div class="flex gap-5">
         <div class="w-1/2">
           <label class="label w-full max-w-xs">
@@ -60,7 +60,7 @@
         </div>
       </div>
     </FormSection>
-    <FormSection title="Address" icon="fa-solid fa-address-book" description="Contact Information">
+    <FormSection title="Address" description="Contact Information">
       <div>
         <div class="grid grid-cols-2 gap-5">
           <div>

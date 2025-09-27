@@ -1,17 +1,14 @@
-import { Dashboard } from '~~/models/dashboard'
+import { Dashboard } from "~~/models/dashboard";
 
-export default defineStore('dashboard', () => {
-	const dashboard = ref(new Dashboard())
-	const loading = ref(true)
-	const get = async () => {
-		loading.value = true
-		dashboard.value = await useApi().dashboard().get()
-		loading.value = false
-	}
+class DashboardStore {
+  dashboard = ref(new Dashboard());
+  loading = ref(true);
 
-	return {
-		loading,
-		get,
-		dashboard,
-	}
-})
+  get = async () => {
+    this.loading.value = true;
+    this.dashboard.value = await useApi().dashboard().get();
+    this.loading.value = false;
+  };
+}
+
+export default defineStore("dashboard", () => new DashboardStore());

@@ -4,7 +4,7 @@ import type { Template } from "~/models/template";
 useTemplate().list();
 
 const isDefault = (t: Template) => {
-  const orgHasDefaultTemplate = useTemplate().templates.filter((t) => !t.isGlobal && t.default).length > 0;
+  const orgHasDefaultTemplate = useTemplate().items.filter((t) => !t.isGlobal && t.default).length > 0;
   return (t.isGlobal && t.default && !orgHasDefaultTemplate) || (!t.isGlobal && t.default);
 };
 </script>
@@ -23,7 +23,7 @@ const isDefault = (t: Template) => {
     <div class="grid grid-cols-7 gap-3 px-10 mt-5">
       <div
         :class="`${isDefault(t) ? 'bg-base-300' : 'bg-base-100'} shadow-lg min-h-60 py-5 rounded-md shadow-lg`"
-        v-for="t in useTemplate().templates"
+        v-for="t in useTemplate().items"
         :key="t.id"
       >
         <NuxtLink :to="`/templates/${t.id}`">

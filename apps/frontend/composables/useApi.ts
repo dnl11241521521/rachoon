@@ -16,7 +16,6 @@ export default function useApi() {
         getAll: async (page: number = 1, perPage: number = 5): Promise<Paginator<Client>> => {
           const { body, headers } = await useHttp.get(`${endpoint}?page=${page}&perPage=${perPage}`);
           const data = body.map((d: any) => new Client(d));
-          console.log(headers);
 
           return new Paginator<Client>({
             total: Number(headers?.get("x-total") || "0"),

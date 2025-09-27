@@ -1,21 +1,22 @@
 <script setup lang="ts">
 useInvoiceOrOffer().form();
+onMounted(() => {
+  watch(
+    // fixes the problem where old,new values are the same
+    [
+      computed(() => JSON.stringify(useInvoiceOrOffer().item?.data.positions)),
+      computed(() => JSON.stringify(useInvoiceOrOffer().item?.data.discountsCharges)),
+      computed(() => JSON.stringify(useInvoiceOrOffer().item?.data.taxOption)),
+      computed(() => JSON.stringify(useInvoiceOrOffer().item?.data.date)),
+      computed(() => JSON.stringify(useInvoiceOrOffer().item?.data.dueDate)),
+    ],
+    () => {
+      useInvoiceOrOffer().updated();
+    },
+  );
+});
 
 const modal = ref(false);
-
-watch(
-  // fixes the problem where old,new values are the same
-  [
-    computed(() => JSON.stringify(useInvoiceOrOffer().invoiceOrOffer.data.positions)),
-    computed(() => JSON.stringify(useInvoiceOrOffer().invoiceOrOffer.data.discountsCharges)),
-    computed(() => JSON.stringify(useInvoiceOrOffer().invoiceOrOffer.data.taxOption)),
-    computed(() => JSON.stringify(useInvoiceOrOffer().invoiceOrOffer.data.date)),
-    computed(() => JSON.stringify(useInvoiceOrOffer().invoiceOrOffer.data.dueDate)),
-  ],
-  () => {
-    useInvoiceOrOffer().updated();
-  },
-);
 
 definePageMeta({
   layout: "core",
@@ -29,9 +30,9 @@ async function save() {
   <Loading v-if="useInvoiceOrOffer().loading" />
 
   <div v-else>
-    <FormHeader :title="useInvoiceOrOffer().title" icon="fa-file-invoice-dollar">
+    <FormHeader :title="`Invoice`" icon="fa-file-invoice-dollar">
       <template #buttons>
-        <select class="select select-bordered select-sm bg-base-300 max-w-56" v-model="useInvoiceOrOffer().invoiceOrOffer.templateId">
+        <select class="select select-bordered select-sm bg-base-300 max-w-56" v-model="useInvoiceOrOffer().item.templateId">
           <option value="" key="default">Default Template</option>
           <option v-for="u in useInvoiceOrOffer().templates" :value="u.id" :key="u.title">
             {{ u.title }}
@@ -43,19 +44,15 @@ async function save() {
         <button
           class="btn btn-sm btn-neutral"
           @click="useInvoiceOrOffer().download()"
-          v-if="useInvoiceOrOffer().invoiceOrOffer.id !== '' && useInvoiceOrOffer().mustSave <= 1"
+          v-if="useInvoiceOrOffer().item.id !== '' && useInvoiceOrOffer().mustSave <= 1"
         >
           <FaIcon icon="fa-solid fa-file-pdf" />
         </button>
-        <button class="btn btn-sm btn-neutral" @click="useInvoiceOrOffer().duplicate(useInvoiceOrOffer().invoiceOrOffer.id)">
+        <button class="btn btn-sm btn-neutral" @click="useInvoiceOrOffer().duplicate(useInvoiceOrOffer().item.id)">
           <FaIcon icon="fa-solid fa-copy " />
         </button>
 
-        <button
-          class="btn btn-sm btn-error gap-2 btn-outline"
-          v-if="useInvoiceOrOffer().invoiceOrOffer.id !== ''"
-          @click="useInvoiceOrOffer().del()"
-        >
+        <button class="btn btn-sm btn-error gap-2 btn-outline" v-if="useInvoiceOrOffer().item.id !== ''" @click="useInvoiceOrOffer().del()">
           <FaIcon icon="fa-solid fa-close" />
           Delete
         </button>
@@ -76,7 +73,7 @@ async function save() {
     </div>
 
     <ul v-if="useInvoiceOrOffer().hasErrors" class="border-2 border-warning rounded p-5 mt-5 mb-10 mx-5">
-      <li v-for="e in useInvoiceOrOffer().invoiceOrOffer.errors()" class="text-warning">
+      <li v-for="e in useInvoiceOrOffer().item.errors()" class="text-warning">
         {{ e }}
       </li>
     </ul>
@@ -90,16 +87,16 @@ async function save() {
           <InvoiceOrOfferClientAutoComplete required />
         </div>
 
-        <div class="prose text-sm" v-if="useInvoiceOrOffer().invoiceOrOffer.client">
-          <h3 class="m-0 p-0">{{ useInvoiceOrOffer().invoiceOrOffer.client.name }}</h3>
+        <div class="prose text-sm" v-if="useInvoiceOrOffer().item.client">
+          <h3 class="m-0 p-0">{{ useInvoiceOrOffer().item.client.name }}</h3>
           <p class="m-0 p-0">
             <br />
-            {{ useInvoiceOrOffer().invoiceOrOffer.client.data.address.street }}
+            {{ useInvoiceOrOffer().item.client.data.address.street }}
             <br />
-            {{ useInvoiceOrOffer().invoiceOrOffer.client.data.address.zip }}
-            {{ useInvoiceOrOffer().invoiceOrOffer.client.data.address.city }}
+            {{ useInvoiceOrOffer().item.client.data.address.zip }}
+            {{ useInvoiceOrOffer().item.client.data.address.city }}
             <br />
-            {{ useInvoiceOrOffer().invoiceOrOffer.client.data.address.country }}
+            {{ useInvoiceOrOffer().item.client.data.address.country }}
             <br />
           </p>
         </div>
@@ -119,22 +116,22 @@ async function save() {
               Invoice date:
             </span>
           </label>
-          <DatePicker v-model="useInvoiceOrOffer().invoiceOrOffer.data.date" />
+          <DatePicker v-model="useInvoiceOrOffer().item.data.date" />
           <label class="label">
             <span class="label-text">
               <FaIcon icon="fa-solid fa-calendar-check" />
               Due date:
             </span>
           </label>
-          <DatePicker v-model="useInvoiceOrOffer().invoiceOrOffer.data.dueDate" />
+          <DatePicker v-model="useInvoiceOrOffer().item.data.dueDate" />
         </div>
       </div>
     </div>
-    <div class="alert px-5 text-error" v-if="useInvoiceOrOffer().invoiceOrOffer.disabled()">
+    <div class="alert px-5 text-error" v-if="useInvoiceOrOffer().item.disabled()">
       <FaIcon icon="fa-solid fa-triangle-exclamation" />
       <p>
         This invoice cannot be modified.
-        <span v-if="useInvoiceOrOffer().invoiceOrOffer.convertedFromOffer()">It's been converted from an offer.</span>
+        <span v-if="useInvoiceOrOffer().item.convertedFromOffer()">It's been converted from an offer.</span>
       </p>
     </div>
     <InvoiceOrOfferItems />

@@ -1,5 +1,7 @@
 <script setup lang="ts">
-useClient().list();
+onMounted(() => {
+  useClient().list();
+});
 </script>
 
 <template>
@@ -69,7 +71,7 @@ useClient().list();
       </div>
     </div>
     <div class="mt-10 gap-2 flex justify-center" v-if="useClient().hasMore()">
-      <span :class="`loading loading-spinner loading-xs ${useClient().loadMoreLoading ? '' : 'opacity-0'}`"></span>
+      <span :class="`loading loading-spinner loading-xs ${useClient().loading ? '' : 'opacity-0'}`"></span>
       <button @click="useClient().loadMore()" class="btn btn-xs btn-neutral inline-block">Load more</button>
     </div>
   </div>

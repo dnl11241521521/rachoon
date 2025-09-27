@@ -1,6 +1,6 @@
-import slugify from 'slugify'
+import slugify from "slugify";
 
-export default defineStore('signup', () => {
+export default defineStore("signup", () => {
   const user = ref({
     email: null,
     password: null,
@@ -8,25 +8,25 @@ export default defineStore('signup', () => {
     data: {
       fullName: null,
     },
-  })
+  });
 
   const organization = ref({
     name: null,
     slug: null,
-  })
+  });
 
-  const slug = ref(null)
+  const slug = ref(null);
 
   watch(organization.value, () => {
     if (organization.value.slug) {
-      slug.value = organization.value.slug
+      slug.value = organization.value.slug;
     } else {
-      slug.value = slugify(organization.value.name, { lower: true })
+      slug.value = slugify(organization.value.name, { lower: true });
     }
-  })
+  });
 
   const getURIParts = (url) => {
-    const matches = url.match(/^(\w+?:\/\/)?([\w-\.]+(?=\/?))?:?(\d*)?([^:]*)/)
+    const matches = url.match(/^(\w+?:\/\/)?([\w-\.]+(?=\/?))?:?(\d*)?([^:]*)/);
     return matches
       ? {
           scheme: matches[1],
@@ -35,32 +35,32 @@ export default defineStore('signup', () => {
           pathname: matches[4],
         }
       : {
-          scheme: 'https://',
-          host: 'rachoon.work',
-          port: '',
-          pathname: '',
-        }
-  }
+          scheme: "https://",
+          host: "rachoon.work",
+          port: "",
+          pathname: "",
+        };
+  };
 
   const signUp = async (e: Event) => {
-    e.preventDefault()
-    const res = await useHttp.post('/api/register', {
+    e.preventDefault();
+    const res = await useHttp.post("/api/register", {
       user: user.value,
       organization: { ...organization.value, slug: slug.value },
-    })
+    });
 
     if (res) {
-      const uriParts = getURIParts(window.location.href)
-      const port = uriParts.port ? `:${uriParts.port}` : ''
+      const uriParts = getURIParts(window.location.href);
+      const port = uriParts.port ? `:${uriParts.port}` : "";
       //   useAuth().loginEmailPassword(user.value.email, user.value.password)
-      window.location.href = `${uriParts.scheme}${slug.value}.${uriParts.host.replace('app.', '')}${port}/login`
+      window.location.href = `${uriParts.scheme}${slug.value}.${uriParts.host.replace("app.", "")}${port}/login`;
     }
-  }
+  };
 
   return {
     user,
     organization,
     slug,
     signUp,
-  }
-})
+  };
+});
