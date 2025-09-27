@@ -24,6 +24,7 @@ export default class TemplatessController {
       .orWhere({ organizationId: null, premium: false })
       .orderBy('organization_id', 'desc')
       .orderBy('created_at', 'desc')
+      .paginate(ctx.request.qs()['page'] || 1, ctx.request.qs()['perPage'] || 20)
   }
 
   public async store(ctx: HttpContextContract) {

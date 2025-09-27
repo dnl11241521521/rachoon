@@ -17,6 +17,7 @@ export default class ClientsController {
       .withCount('offers', (query) => query.as('totalOffers'))
       .withCount('offers', (query) => query.where({ status: 'pending' }).as('pendingOffers'))
       .orderBy('created_at', 'desc')
+      .paginate(ctx.request.qs()['page'] || 1, ctx.request.qs()['perPage'] || 20)
   }
 
   public async store(ctx: HttpContextContract) {

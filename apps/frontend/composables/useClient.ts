@@ -4,6 +4,10 @@ import _ from "lodash";
 export default defineStore("client", () => {
   const type = "clients";
   let clients = ref<Client[]>([]);
+  const page = ref(1);
+  const perPage = ref(5);
+
+  const pages = ref(0);
 
   const hasErrors = ref(false);
 
@@ -30,7 +34,10 @@ export default defineStore("client", () => {
 
   async function list() {
     loading.value = true;
-    clients.value = await useApi().clients().getAll();
+    const res = await useApi().clients().getAll(page.value, perPage.value);
+    console.log(res);
+    pages.value = res.pages;
+    clients.value = res.rows;
     loading.value = false;
   }
 
@@ -60,5 +67,6 @@ export default defineStore("client", () => {
     singularType,
     list,
     hasErrors,
+    pages,
   };
 });

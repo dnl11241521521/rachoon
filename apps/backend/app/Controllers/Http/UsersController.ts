@@ -4,7 +4,9 @@ import { UserValidator } from 'App/Validators/User'
 
 export default class UsersController {
   public async index(ctx: HttpContextContract) {
-    return User.query().where({ organizationId: ctx.auth.user?.organization.id })
+    return User.query()
+      .where({ organizationId: ctx.auth.user?.organization.id })
+      .paginate(ctx.request.qs()['page'] || 1, ctx.request.qs()['perPage'] || 20)
   }
 
   public async show(ctx: HttpContextContract) {

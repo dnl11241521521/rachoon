@@ -7,6 +7,7 @@ definePageMeta({
 });
 const props = defineProps({
   clientId: { type: String, default: "" },
+  list: { type: Array as () => InvoiceOrOffer[], default: null },
 });
 
 const modal = ref(false);

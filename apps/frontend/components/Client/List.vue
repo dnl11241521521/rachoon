@@ -68,5 +68,6 @@ useClient().list();
         </table>
       </div>
     </div>
+    {{ useClient().pages }}
   </div>
 </template>

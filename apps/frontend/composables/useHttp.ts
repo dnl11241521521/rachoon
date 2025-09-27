@@ -1,38 +1,21 @@
 import camelcaseKeys from "camelcase-keys";
 
-type FetchMethod =
-  | "get"
-  | "post"
-  | "put"
-  | "delete"
-  | "patch"
-  | "head"
-  | "options";
+type FetchMethod = "get" | "post" | "put" | "delete" | "patch" | "head" | "options";
 
 export default class HttpClient {
-  public static get = async (
-    url: string,
-    notify: false | { title: string; text: string; type?: string } = false
-  ) => await this.doFetch(url, { method: "get" }, notify);
-  public static del = async (
-    url: string,
-    notify: false | { title: string; text: string; type?: string } = false
-  ) => await this.doFetch(url, { method: "delete" }, notify);
-  public static post = async (
-    url: string,
-    data: any,
-    notify: false | { title: string; text: string; type?: string } = false
-  ) => await this.doFetch(url, { method: "post", body: data }, notify);
-  public static put = async (
-    url: string,
-    data: any,
-    notify: false | { title: string; text: string; type?: string } = false
-  ) => await this.doFetch(url, { method: "put", body: data }, notify);
+  public static get = async (url: string, notify: false | { title: string; text: string; type?: string } = false) =>
+    await this.doFetch(url, { method: "get" }, notify);
+  public static del = async (url: string, notify: false | { title: string; text: string; type?: string } = false) =>
+    await this.doFetch(url, { method: "delete" }, notify);
+  public static post = async (url: string, data: any, notify: false | { title: string; text: string; type?: string } = false) =>
+    await this.doFetch(url, { method: "post", body: data }, notify);
+  public static put = async (url: string, data: any, notify: false | { title: string; text: string; type?: string } = false) =>
+    await this.doFetch(url, { method: "put", body: data }, notify);
 
   public static doFetch = async (
     url: string,
     opts: { method: FetchMethod; body?: any },
-    notify: false | { title: string; text: string; type?: string } = false
+    notify: false | { title: string; text: string; type?: string } = false,
   ) => {
     const baseUrl = useRuntimeConfig().public.apiURL;
 
@@ -60,7 +43,8 @@ export default class HttpClient {
           type: notify.type,
         });
       }
-      return camelcaseKeys(res._data as any, { deep: true });
+
+      return { body: camelcaseKeys(res._data as any, { deep: true }), headers: res.headers };
     } catch (e) {
       console.error(e);
       this.notifyError(e);
