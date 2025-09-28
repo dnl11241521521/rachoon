@@ -13,7 +13,11 @@ const props = defineProps({
 const modal = ref(false);
 const offer = ref(new Document());
 const controller = () => useDocument();
-controller().list(false, props.clientId);
+if (props.clientId && props.clientId !== "") {
+  controller().listForClient(props.clientId);
+} else {
+  controller().list();
+}
 </script>
 
 <template>

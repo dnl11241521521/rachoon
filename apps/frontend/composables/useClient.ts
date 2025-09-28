@@ -12,10 +12,6 @@ class ClientStore extends Base<Client> {
     }
   };
 
-  list = async (loadMore: boolean = false) => {
-    await super.list(loadMore, useApi().clients().getAll);
-  };
-
   form = async () => {
     const id = useRoute().params["id"] as string;
 
@@ -31,4 +27,4 @@ class ClientStore extends Base<Client> {
   };
 }
 
-export default defineStore("client", () => new ClientStore("clients"));
+export default defineStore("client", () => new ClientStore("clients", useApi().clients().getAll));

@@ -7,22 +7,6 @@ export default class BaseAppModel extends compose(BaseModel, SoftDeletes) {
   public page = 1
   public perPage = 20
 
-  public static sortBy = scope((query, ctx: HttpContextContract, columns: Map<string, any>) =>
-    query.if(ctx.request.qs()['sort'], (query) => {
-      //TODO: throw validation errors
-      const sort = ctx.request.qs()['sort']
-      if (typeof sort !== 'object') return
-      for (const field in sort) {
-        if (!columns.get(field)) continue
-        let order = sort[field]
-        if (!order || !['asc', 'desc'].includes(order.toLowerCase())) {
-          order = 'asc'
-        }
-        query.orderBy(field, order)
-      }
-    })
-  )
-
   private static fieldInColumns(field: string, columns: Map<string, any>): boolean {
     if (columns.get(field)) {
       return true
@@ -35,14 +19,35 @@ export default class BaseAppModel extends compose(BaseModel, SoftDeletes) {
     return false
   }
 
+  public static sortBy = scope((query, ctx: HttpContextContract, columns: Map<string, any>) =>
+    query.if(
+      ctx.request.qs()['sort'],
+      (query) => {
+        //TODO: throw validation errors
+        const sort = ctx.request.qs()['sort']
+        if (typeof sort !== 'object') return
+        for (const field in sort) {
+          if (!this.fieldInColumns(field, columns)) continue
+          let order = sort[field]
+          if (!order || !['asc', 'desc'].includes(order.toLowerCase())) {
+            order = 'asc'
+          }
+          query.orderBy(field, order)
+        }
+      },
+      //default sort
+      (query) => query.orderBy('createdAt', 'desc')
+    )
+  )
+
   public static filterBy = scope((query, ctx: HttpContextContract, columns: Map<string, any>) =>
     query.if(ctx.request.qs()['filter'], (query) => {
       //TODO: throw validation errors
       const filter = ctx.request.qs()['filter']
       if (typeof filter !== 'object') return
+      console.log(filter)
       for (const field in filter) {
         const f = filter[field]
-        console.log(f)
         if (typeof f !== 'object') continue
         if (!this.fieldInColumns(field, columns)) continue
         const op = Object.keys(f)[0]
@@ -52,7 +57,7 @@ export default class BaseAppModel extends compose(BaseModel, SoftDeletes) {
         if (op === 'like' && !value.includes('%')) {
           value = `%${value}%`
         }
-        query.where(field, op, value).debug(true)
+        query.where(field, op, value)
       }
     })
   )

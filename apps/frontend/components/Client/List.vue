@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const controller = () => useClient();
+
 onMounted(() => {
   controller().list();
 });
@@ -34,8 +35,22 @@ onMounted(() => {
         <table class="table table-compact w-full">
           <thead>
             <tr>
-              <th width="200">#</th>
-              <th>Name</th>
+              <th width="200" @click="controller().sort('number')">
+                # Number
+                <FaIcon
+                  v-if="controller().sortKeys['number']"
+                  :icon="`fa-solid ${controller().sortKeys['number'] === 'asc' ? 'fa-chevron-up' : 'fa-chevron-down'}`"
+                  class="ml-1"
+                />
+              </th>
+              <th @click="controller().sort('name')">
+                Name
+                <FaIcon
+                  v-if="controller().sortKeys['name']"
+                  :icon="`fa-solid ${controller().sortKeys['name'] === 'asc' ? 'fa-chevron-up' : 'fa-chevron-down'}`"
+                  class="ml-1"
+                />
+              </th>
               <th width="200">Offers</th>
               <th width="200">Invoices</th>
             </tr>

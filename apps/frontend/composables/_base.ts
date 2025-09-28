@@ -2,10 +2,11 @@ import { type IBase } from "@repo/common/Base";
 import type { getAllFunc } from "./useApi";
 
 export default class Base<T extends IBase> {
-  constructor(type: string) {
-    this.list = this.list.bind(this);
-    this.save = this.save.bind(this);
-    this.loadMore = this.loadMore.bind(this);
+  constructor(type: string, getAllFunc: getAllFunc<T>) {
+    this.getAllFunc = getAllFunc;
+    watch([computed(() => JSON.stringify(this.sortKeys.value)), computed(() => JSON.stringify(this.filterKeys.value))], () => {
+      this.list();
+    });
   }
 
   type = (firstToUpper = false) => {
@@ -14,15 +15,33 @@ export default class Base<T extends IBase> {
     return res;
   };
 
+  setAllFunc = (getAllFunc: getAllFunc<T>) => {
+    this.getAllFunc = getAllFunc;
+  };
+
   items: Ref<T[]> = ref([]);
   item = ref<T>();
   hasErrors = ref(false);
+  getAllFunc: getAllFunc<T>;
 
+  sortKeys = ref({});
+  filterKeys = ref({});
+  loadMore = ref(false);
   page = ref(1);
   pages = ref(0);
   loading = ref(false);
   perPage = ref(20);
   singularType = () => this.type().slice(0, this.type().length - 1);
+
+  async filter(key: string, operator: string, value: string) {
+    if (!this.filterKeys.value[key]) {
+      this.filterKeys.value = { ...this.filterKeys.value, [key]: { operator: operator, value: value } };
+    } else {
+      const tmp = this.sortKeys.value;
+      tmp[key] = { operator: operator, value: value };
+      this.filterKeys.value = tmp;
+    }
+  }
 
   async save(e: Event) {
     e.preventDefault();
@@ -33,29 +52,43 @@ export default class Base<T extends IBase> {
     this.hasErrors.value = false;
   }
 
-  async list(loadMore: boolean = false, loadAllFunc: getAllFunc<T>) {
-    if (!loadMore) {
+  sort = (key: string) => {
+    if (!this.sortKeys.value[key]) {
+      this.sortKeys.value = { ...this.sortKeys.value, [key]: "asc" };
+    } else {
+      const tmp = this.sortKeys.value;
+      if (tmp[key] === "asc") {
+        tmp[key] = "desc";
+      } else if (tmp[key] === "desc") {
+        delete tmp[key];
+      }
+      this.sortKeys.value = tmp;
+    }
+  };
+
+  list = async () => {
+    if (!this.loadMore.value) {
       this.page.value = 1;
       this.loading.value = true;
     }
-    const res = await loadAllFunc(this.page.value, this.perPage.value);
+    const res = await this.getAllFunc(this.page.value, this.perPage.value, this.sortKeys.value, this.filterKeys.value);
     this.pages.value = res.pages;
-    if (loadMore) {
+    if (this.loadMore.value) {
       this.items.value = [...this.items.value, ...res.rows];
     } else {
       this.items.value = res.rows as T[];
     }
     this.loading.value = false;
-  }
+  };
 
   hasMore = () => {
     return this.page.value < this.pages.value;
   };
 
-  loadMore = () => {
+  doLoadMore = () => {
     if (this.hasMore()) {
       this.page.value++;
-      this.list(true);
+      this.list();
     }
   };
 }

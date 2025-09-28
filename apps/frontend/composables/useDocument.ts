@@ -11,6 +11,7 @@ class DocumentStore extends Base<Document> {
   templates = ref<Template[]>([]);
   mustSave = ref(-1);
   offerToConvert = ref(new Document());
+  parentList = this.list;
 
   setTemplate = (id: string) => {
     this.item.value!.templateId = id;
@@ -39,10 +40,20 @@ class DocumentStore extends Base<Document> {
 
   offerToInvoice = (io: Document) => {};
 
+  listForClient = (id: string) => {
+    this.filter("clientId", "=", id);
+    this.list();
+  };
+
   setStatus = (io: Document) => {
     const status = io.status === "pending" ? (io.type === "invoice" ? "paid" : "accepted") : "pending";
     io.setStatus(status);
     useApi().documents(this.singularType()).setStatus(io.id, status);
+  };
+
+  list = async () => {
+    this.getAllFunc = useApi().documents(this.singularType()).getAll;
+    this.parentList();
   };
 
   save = async () => {
@@ -53,11 +64,6 @@ class DocumentStore extends Base<Document> {
       useRouter().replace(`/${this.type()}/${ioo.id}`);
     }
     this.mustSave.value = 0;
-  };
-
-  list = async (loadMore: boolean = false, props: { clientId: string } = { clientId: "" }) => {
-    super.list(loadMore, useApi().documents(this.singularType(), props.clientId).getAll);
-    this.loading.value = false;
   };
 
   preview = async () => {
@@ -161,4 +167,4 @@ class DocumentStore extends Base<Document> {
   };
 }
 
-export default defineStore("document", () => new DocumentStore("documents"));
+export default defineStore("document", () => new DocumentStore("invoice", useApi().documents("invoice").getAll));

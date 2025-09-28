@@ -23,7 +23,9 @@ export default class HashIdParser {
           Object.keys(q.filter[k]).forEach((v) => {
             const nv = v.replace('%3D', '=')
             q.filter[k][nv] = HashIDs.decode(q.filter[k][v])
-            delete q.filter[k][v]
+            if (nv !== v) {
+              delete q.filter[k][v]
+            }
           })
         }
       })

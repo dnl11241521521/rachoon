@@ -12,9 +12,6 @@ class UserStore extends Base<User> {
       useRouter().replace(`/${this.type}/${u.id}`);
     }
   };
-  list = async (loadMore: boolean = false) => {
-    super.list(loadMore, useApi().users().getAll);
-  };
 
   form = async () => {
     const id = useRoute().params["id"] as string;
@@ -29,4 +26,4 @@ class UserStore extends Base<User> {
   };
 }
 
-export default defineStore("user", () => new UserStore("users"));
+export default defineStore("user", () => new UserStore("users", useApi().users().getAll));

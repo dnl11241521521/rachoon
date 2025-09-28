@@ -15,10 +15,6 @@ class TemplateStore extends Base<Template> {
     }
   };
 
-  list = async (loadMore: boolean = false) => {
-    super.list(loadMore, useApi().templates().getAll);
-  };
-
   get = async (id: string): Promise<Template> => {
     if (this.cached.value[id]) {
       return this.cached.value[id];
@@ -58,4 +54,4 @@ class TemplateStore extends Base<Template> {
   };
 }
 
-export default defineStore("template", () => new TemplateStore("templates"));
+export default defineStore("template", () => new TemplateStore("templates", useApi().templates().getAll));
