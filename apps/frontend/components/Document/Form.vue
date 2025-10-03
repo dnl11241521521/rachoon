@@ -35,13 +35,17 @@ async function save() {
     <FormHeader :title="`${controller().singularType(true)}`" icon="fa-file-invoice-dollar">
       <template #buttons>
         <select class="select select-bordered select-sm bg-base-300 max-w-56" v-model="controller().item.templateId">
-          <option value="" key="default">Default Template</option>
+          <option value="null" key="default">Default Template</option>
           <option v-for="u in controller().templates" :value="u.id" :key="u.title">
             {{ u.title }}
           </option>
         </select>
-        <label v-if="controller().item.isRecurring || controller().item.id === ''" class="btn btn-sm btn-neutral"
-          for="recurring-modal" @click="recurringModal = true">
+        <label
+          v-if="controller().item.isRecurring || controller().item.id === ''"
+          class="btn btn-sm btn-neutral"
+          for="recurring-modal"
+          @click="recurringModal = true"
+        >
           <FaIcon icon="fa-solid fa-repeat" :class="`${controller().recurring.active ? 'text-success' : ''}`" />
           Recurring
         </label>
@@ -49,8 +53,11 @@ async function save() {
         <label class="btn btn-sm btn-neutral" for="preview-modal" @click="previewModal = true">
           <FaIcon icon="fa-solid fa-eye" />
         </label>
-        <button class="btn btn-sm btn-neutral" @click="controller().download()"
-          v-if="controller().item.id !== '' && controller().mustSave <= 1">
+        <button
+          class="btn btn-sm btn-neutral"
+          @click="controller().download()"
+          v-if="controller().item.id !== '' && controller().mustSave <= 1"
+        >
           <FaIcon icon="fa-solid fa-file-pdf" />
         </button>
         <button class="btn btn-sm btn-neutral" @click="controller().duplicate(controller().item.id)">
@@ -61,13 +68,15 @@ async function save() {
           <FaIcon icon="fa-solid fa-gear" />
         </span>
 
-        <NuxtLink :to="`/reminders/new?invoice=${controller().item.id}`" class="btn btn-sm btn-neutral"
-          v-if="controller().item.type === 'invoice' && controller().item.id !== ''">
+        <NuxtLink
+          :to="`/reminders/new?invoice=${controller().item.id}`"
+          class="btn btn-sm btn-neutral"
+          v-if="controller().item.type === 'invoice' && controller().item.id !== ''"
+        >
           <FaIcon icon="fa-solid fa-bell" />
         </NuxtLink>
 
-        <button class="btn btn-sm btn-error gap-2 btn-outline" v-if="controller().item.id !== ''"
-          @click="controller().del()">
+        <button class="btn btn-sm btn-error gap-2 btn-outline" v-if="controller().item.id !== ''" @click="controller().del()">
           <FaIcon icon="fa-solid fa-close" />
           Delete
         </button>
@@ -129,8 +138,7 @@ async function save() {
         <div class="w-full prose text-center pt-3" v-if="controller().item.overdue">
           <h2 class="m-0 p-0 text-error">Invoice overdue!</h2>
           <p>You should create a reminder.</p>
-          <NuxtLink class="btn btn-sm btn-neutral gap-2 no-underline"
-            :to="`/reminders/new?invoice=${controller().item.id}`">
+          <NuxtLink class="btn btn-sm btn-neutral gap-2 no-underline" :to="`/reminders/new?invoice=${controller().item.id}`">
             <FaIcon icon="fa-solid fa-bell" />
             Create reminder
           </NuxtLink>

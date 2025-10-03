@@ -1,11 +1,14 @@
 export default async function useRender(object: any, preview: boolean = false): Promise<string | string[]> {
-  let tpl = "default";
+  let tpl = "";
+  console.log(object.templateId);
 
   if (object.templateId) {
     tpl = object.templateId;
   }
-
-  const template = await useTemplate().get(tpl);
+  let template = useTemplate().defaultTemplate;
+  if (tpl && tpl !== "null") {
+    template = await useTemplate().get(tpl);
+  }
 
   return (
     await useHttp.post(`/api/render${preview ? "?preview=true" : ""}`, {

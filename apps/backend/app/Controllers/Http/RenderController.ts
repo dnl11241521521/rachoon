@@ -8,8 +8,16 @@ export default class RenderController {
     const body: any = await ctx.request.validate(RenderValidator)
     const org = ctx.auth.user!.organization
     const template = await Template.query()
-      .where({ id: body.templateId, organizationId: org.id })
-      .orWhere({ id: body.templateId, organizationId: null })
+      .if(
+        body.templateId,
+        (query) => {
+          query
+            .where({ id: body.templateId, organizationId: org.id })
+            .orWhere({ id: body.templateId, organizationId: null })
+        },
+        (query) => query.where({ organizationId: null })
+      )
+      .debug(true)
       .firstOrFail()
 
     const preview = ctx.request.qs()['preview'] || false

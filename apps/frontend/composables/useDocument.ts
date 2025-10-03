@@ -146,7 +146,7 @@ class DocumentStore extends Base<Document> {
   form = async () => {
     this.loading.value = true;
     this.clients.value = (await useApi().clients().getAll()).rows;
-    this.templates.value = await useApi().templates().getAll();
+    this.templates.value = (await useApi().templates().getAll()).rows;
     const id = useRoute().params["id"] as string;
 
     this.item.value = new Document();
