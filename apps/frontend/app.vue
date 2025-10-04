@@ -13,6 +13,8 @@ window.addEventListener("keyup", (e) => {
 <template>
   <div v-if="useProfile().loading === true">Loading</div>
   <div id="app" data-theme="rachoon" v-else>
+    <AppConfirm />
+
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>

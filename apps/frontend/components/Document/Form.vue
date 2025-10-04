@@ -33,7 +33,7 @@ const recurringModal = ref(null);
   <Loading v-if="controller().loading" />
 
   <div v-else>
-    <FormHeader :title="`${controller().singularType(true)}`" icon="fa-file-invoice-dollar">
+    <FormHeader :title="`${controller().singularType(true)}`" :subtitle="`#${controller().item.number}`" icon="fa-file-invoice-dollar">
       <template #buttons>
         <label
           v-if="controller().item.isRecurring || controller().item.id === ''"
@@ -68,10 +68,10 @@ const recurringModal = ref(null);
           <FaIcon icon="fa-solid fa-gear" />
         </label>
 
-        <button class="btn btn-sm btn-ghost text-error gap-2" v-if="controller().item.id !== ''" @click="controller().del()">
+        <label class="btn btn-sm btn-ghost text-error gap-2" v-if="!controller().isNew()" @click="controller().delete()">
           <FaIcon icon="fa-solid fa-close" />
           Delete
-        </button>
+        </label>
 
         <button class="btn btn-sm btn-neutral" @click="save">
           <FaIcon icon="fa-solid fa-save " />

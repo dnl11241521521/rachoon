@@ -9,10 +9,10 @@ const roles = ["admin", "user"];
   <form @submit="controller().save" v-else>
     <FormHeader :title="controller().item.data.fullName" icon="fa-user">
       <template #buttons>
-        <button v-if="controller().item.id !== null" class="btn btn-sm btn-ghost text-error gap-2">
+        <label v-if="controller().item.id !== null" class="btn btn-sm btn-ghost text-error gap-2" @click="controller().delete()">
           <FaIcon icon="fa-solid fa-close" />
           Delete
-        </button>
+        </label>
         <button class="btn btn-sm btn-neutral" type="submit">
           <FaIcon icon="fa-solid fa-save " />
           Save

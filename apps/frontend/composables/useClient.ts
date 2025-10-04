@@ -12,6 +12,13 @@ class ClientStore extends Base<Client> {
     }
   };
 
+  delete = async () => {
+    useApp().confirm(async () => {
+      await useApi().clients().delete(this.item.value.id);
+      useRouter().replace(`/${this.type()}/`);
+    }, `Are you sure you want to delete the client ${this.item.value.name}?`);
+  };
+
   form = async () => {
     const id = useRoute().params["id"] as string;
 

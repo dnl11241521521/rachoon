@@ -169,9 +169,11 @@ class DocumentStore extends Base<Document> {
     this.loading.value = false;
   };
 
-  del = async () => {
-    await useApi().documents("invoice-or-offer").delete(this.item.value.id);
-    useRouter().replace(`/${this.type()}/`);
+  delete = async () => {
+    useApp().confirm(async () => {
+      await useApi().documents("invoice-or-offer").delete(this.item.value.id);
+      useRouter().replace(`/${this.type()}/`);
+    }, `Are you sure you want to delete ${this.singularType()} ${this.item.value.number}?`);
   };
 
   maybeDoConvertOffer = async () => {

@@ -24,6 +24,13 @@ class UserStore extends Base<User> {
 
     this.loading.value = false;
   };
+
+  delete = async () => {
+    useApp().confirm(async () => {
+      await useApi().users().delete(this.item.value.id);
+      useRouter().replace(`/${this.type()}/`);
+    }, `Are you sure you want to delete the user ${this.item.value.data.username}?`);
+  };
 }
 
 export default defineStore("user", () => new UserStore(ref(new User()), useApi().users().getAll));

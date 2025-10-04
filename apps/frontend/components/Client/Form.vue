@@ -7,12 +7,16 @@ controller().form();
   <Loading v-if="controller().loading" />
 
   <form @submit="controller().save" v-else>
-    <FormHeader :title="controller().item?.name || `${controller().item?.id === null ? 'New' : 'Edit'} Client`" icon="fa-user">
+    <FormHeader
+      :title="`${controller().isNew() ? 'New Client' : controller().item.name}`"
+      :subtitle="controller().item.number"
+      icon="fa-user"
+    >
       <template #buttons>
-        <button v-if="controller().item?.id !== ''" class="btn btn-sm btn-error gap-2 btn-outline">
+        <label v-if="!controller().isNew()" class="btn btn-sm btn-ghost text-error gap-2" @click="controller().delete()">
           <FaIcon icon="fa-solid fa-close" />
           Delete
-        </button>
+        </label>
         <button class="btn btn-sm btn-neutral" type="submit">
           <FaIcon icon="fa-solid fa-save " />
           {{ controller().item?.id === "" ? "Create Client" : "Save" }}
