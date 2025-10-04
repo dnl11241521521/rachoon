@@ -182,22 +182,22 @@ input[type="text"]:focus {
 
 .simple-typeahead-list {
   position: absolute;
-  @apply rounded-lg mt-2 w-80;
+  @apply rounded-lg mt-2 w-80 bordered border-base-300;
   cursor: pointer;
   z-index: 9999;
 
   .simple-typeahead-list-item {
-    @apply bg-base-300 p-1;
+    @apply bg-base-100 px-3 py-1 border-b border-base-300 last:border-none first:rounded-t-md last:rounded-b-md;
     .simple-typeahead-list-item-text {
       strong {
         @apply text-info;
       }
     }
     &.simple-typeahead-list-item-active {
-      @apply bg-info text-black;
+      @apply bg-base-300;
       .simple-typeahead-list-item-text {
         strong {
-          @apply text-black;
+          /* @apply text-black; */
         }
       }
     }

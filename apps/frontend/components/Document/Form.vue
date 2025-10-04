@@ -113,7 +113,7 @@ const recurringModal = ref(null);
         </div>
 
         <div class="prose text-sm" v-if="controller().item.client">
-          <h3 class="m-0 p-0">{{ controller().item.client.name }}</h3>
+          <h3 class="m-0 p-0" v-if="!controller().isNew()">{{ controller().item.client.name }}</h3>
           <p class="m-0 p-0">
             <br />
             {{ controller().item.client.data.address.street }}
