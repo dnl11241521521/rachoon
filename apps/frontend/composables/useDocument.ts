@@ -1,5 +1,5 @@
 import { Client, type ClientType } from "~~/models/client";
-import { Document, Recurring } from "~~/models/document";
+import { Document, Recurring, type TaxOption } from "~~/models/document";
 import Helpers from "@repo/common/Helpers";
 
 import * as dateFns from "date-fns";
@@ -134,6 +134,7 @@ class DocumentStore extends Base<Document> {
     this.item.value.data.dueDate = dateFns.add(this.item.value.data.date, {
       days: useProfile().me.organization.settings[this.type()].dueDays,
     });
+    this.item.value.data.taxOption = useSettings().settings.taxes.options.filter((o) => o.default)[0];
 
     if (this.type() === "reminders") {
       this.handleReminder();
@@ -162,11 +163,13 @@ class DocumentStore extends Base<Document> {
     }
 
     this.item.value.rebuild();
-    if (!this.item.value.data.taxOption) {
-      this.item.value.data.taxOption = useSettings().settings.taxes.options.filter((o) => o.default)[0];
-    }
     this.mustSave.value = -1;
     this.loading.value = false;
+  };
+
+  setTaxOption = (Option: TaxOption) => {
+    this.item.value.data.taxOption = Option;
+    this.updated();
   };
 
   delete = async () => {

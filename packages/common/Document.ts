@@ -136,7 +136,7 @@ class Document implements DocumentType {
     dueDays: 14,
     net: 0,
     netNoDiscount: 0,
-    taxOption: null as TaxOption | null,
+    taxOption: {} as TaxOption,
   };
 
   type = "";
@@ -158,11 +158,6 @@ class Document implements DocumentType {
       }
     }
   }
-
-  setTaxOption = (option: TaxOption) => {
-    console.log(option);
-    this.data.taxOption = option;
-  };
 
   calculate() {
     this.calcPositions();

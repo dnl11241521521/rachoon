@@ -35,9 +35,9 @@ const document = useDocument().item;
     </div>
     <div>
       <div class="divider m-0 p-0">
-        {{ document.data.taxOption!.title }}
+        {{ document.data.taxOption.title }}
       </div>
-      <div v-if="document.data.taxOption!.applicable">
+      <div v-if="document.data.taxOption.applicable">
         <div class="flex justify-between" v-for="(_, rate) in document.data.taxes">
           <h4 class="m-0 opacity-50">{{ rate }}%</h4>
           <h4 class="m-0 opacity-50">
@@ -47,10 +47,10 @@ const document = useDocument().item;
       </div>
       <div v-else>
         <div class="flex justify-between">
-          <h3 class="m-0 !text-warning"></h3>
-          <h3 class="m-0 !text-warning">
+          <h4 class="m-0"></h4>
+          <h4 class="m-0 opacity-50">
             {{ useFormat.toCurrency(0) }}
-          </h3>
+          </h4>
         </div>
       </div>
     </div>

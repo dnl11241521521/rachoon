@@ -12,6 +12,7 @@ onMounted(() => {
       computed(() => JSON.stringify(controller().item.data.dueDate)),
     ],
     () => {
+      console.log("here");
       controller().updated();
     },
   );

@@ -13,7 +13,7 @@ const taxOptions = useSettings().settings.taxes.options;
       name="taxoption"
       class="radio radio-xs"
       :disabled="useDocument().offerToConvert.id !== ''"
-      @change="document.setTaxOption(o)"
+      @change="useDocument().setTaxOption(o)"
       :checked="o.title === document.data.taxOption.title"
     />
     <span class="label-text !text-base-content">{{ o.title }}</span>
