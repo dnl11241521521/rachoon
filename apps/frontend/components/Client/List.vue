@@ -37,19 +37,15 @@ onMounted(() => {
             <tr>
               <th width="200" @click="controller().sort('number')">
                 # Number
-                <FaIcon
-                  v-if="controller().sortKeys['number']"
+                <FaIcon v-if="controller().sortKeys['number']"
                   :icon="`fa-solid ${controller().sortKeys['number'] === 'asc' ? 'fa-chevron-up' : 'fa-chevron-down'}`"
-                  class="ml-1"
-                />
+                  class="ml-1" />
               </th>
               <th @click="controller().sort('name')">
                 Name
-                <FaIcon
-                  v-if="controller().sortKeys['name']"
+                <FaIcon v-if="controller().sortKeys['name']"
                   :icon="`fa-solid ${controller().sortKeys['name'] === 'asc' ? 'fa-chevron-up' : 'fa-chevron-down'}`"
-                  class="ml-1"
-                />
+                  class="ml-1" />
               </th>
               <th width="200">Offers</th>
               <th width="200">Invoices</th>
@@ -80,13 +76,14 @@ onMounted(() => {
               <td>
                 <NuxtLink :to="`/invoices/client/${c.id}`">{{ c.totalInvoices }} Invoices</NuxtLink>
                 <br />
-                <small v-if="c.pendingInvoices > 0" class="text-error text-opacity-50">pending {{ c.pendingInvoices }}</small>
+                <small v-if="c.pendingInvoices > 0" class="text-error text-opacity-50">pending {{ c.pendingInvoices
+                  }}</small>
                 &nbsp;
               </td>
               <td>
                 <NuxtLink :to="`/reminders/client/${c.id}`">{{ c.totalReminders }} Reminders</NuxtLink>
               </td>
-              <td>
+              <td class="text-right">
                 <ContextMenu>
                   <li>
                     <NuxtLink :href="`/clients/${c.id}`">

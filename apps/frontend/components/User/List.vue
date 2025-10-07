@@ -63,7 +63,7 @@ controller().list();
               </td>
               <td>{{ u.email }}</td>
               <td>{{ u.role }}</td>
-              <td>
+              <td class="text-right">
                 <ContextMenu>
                   <li>
                     <NuxtLink :href="`/users/${u.id}`">
