@@ -28,7 +28,7 @@ const fees = useSettings().settings.reminders.fees;
                 v-maska="{
                   mask: '#*.##',
                   preprocessor: (val) => {
-                    return position.valueType === 'percent' ? useFormat.max100(val) : val;
+                    return f.valueType === 'percent' ? useFormat.max100(val) : val;
                   },
                 }"
                 class="input input-bordered input-sm w-full"

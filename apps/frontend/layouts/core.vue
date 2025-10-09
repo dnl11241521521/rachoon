@@ -12,13 +12,9 @@ const { isOpen } = useDrawer();
       <label for="app-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
 
       <div class="flex flex-col min-h-dvh max-h-dvh h-dvh bg-base-100 w-80 border-r border-base-300">
-        <NuxtLink href="/" class="logo my-5 text-center">
-          <img src="@/assets/logo.png" class="h-10 w-auto inline-block" />
-          <!-- <img -->
-          <!--   v-if="useProfile().me.organization.data.logo !== ''" -->
-          <!--   :src="useProfile().me.organization.data.logo" -->
-          <!--   class="h-8 w-auto inline-block" -->
-          <!-- /> -->
+        <NuxtLink href="/" class="logo mt-2 ml-3">
+          <img src="@/assets/logo.png" class="h-10 w-auto inline-block align-middle" />
+          <h2 class="ml-2 inline-block align-middle">rachoon</h2>
         </NuxtLink>
         <div class="divider m-0 p-0"></div>
         <div class="overflow-y-auto">

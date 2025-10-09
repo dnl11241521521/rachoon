@@ -94,6 +94,7 @@ export default class Base<T extends IBase> {
     }
     this.loading.value = false;
     this.refresh.value = false;
+    this.loading.value = false;
   };
 
   hasMore = () => {
@@ -103,6 +104,7 @@ export default class Base<T extends IBase> {
   doLoadMore = () => {
     if (this.hasMore()) {
       this.loadMore.value = true;
+      this.refresh.value = true;
       this.page.value++;
       this.list();
     }

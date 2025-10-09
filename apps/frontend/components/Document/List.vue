@@ -2,9 +2,6 @@
 import { Document } from "~~/models/document";
 import * as datefns from "date-fns";
 
-definePageMeta({
-  layout: "core",
-});
 const props = defineProps({
   clientId: { type: String, default: "" },
   list: { type: Array as () => Document[], default: null },
@@ -44,7 +41,7 @@ const columns = [
     >
       <template #buttons>
         <NuxtLink
-          class="btn btn-sm btn-neutral gap-2 no-underline"
+          class="btn btn-sm bg-emerald-500 hover:text-white text-black gap-2 no-underline"
           :href="`/${controller().type()}/new`"
           v-if="controller().type() !== 'reminders'"
         >
@@ -86,8 +83,9 @@ const columns = [
         :columns="columns"
         :rows="list || controller().items"
         :sortableFields="['number', 'data.dueDate', 'data.net', 'data.total', 'status']"
-        :loading="controller().refresh || controller().loadMore"
+        :loading="controller().refresh"
         @doLoadMore="controller().doLoadMore()"
+        :showLoadMore="controller().hasMore()"
         @sort="(sort) => controller().sort(sort)"
       >
         <template #number="{ row }">

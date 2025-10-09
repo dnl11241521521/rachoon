@@ -39,7 +39,7 @@ const handleSorted = (field: string) => {
     <div class="absolute bg-base-100 w-full h-full z-10 bg-opacity-50 justify-center backdrop-blur-sm items-center flex" v-if="loading">
       <Loading />
     </div>
-    <table class="table table-compact table-sm w-full relative">
+    <table class="table table-compact datatable table-sm w-full relative">
       <thead>
         <tr>
           <th
@@ -76,7 +76,6 @@ const handleSorted = (field: string) => {
   </div>
 
   <div class="mt-10 gap-2 flex justify-center" v-if="showLoadMore">
-    <span :class="`loading loading-spinner loading-xs ${loading ? '' : 'opacity-0'}`"></span>
     <button @click="emit('doLoadMore')" class="btn btn-xs btn-neutral inline-block">Load more</button>
   </div>
 </template>

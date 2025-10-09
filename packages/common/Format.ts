@@ -10,25 +10,16 @@ export default class Format {
     return formatter.format(Number(value));
   }
 
-  static date(value: any, locale: string) {
-    try {
-      return DateTime.fromObject(value)
-        .setLocale(locale)
-        .toLocaleString(DateTime.DATE_SHORT); // const formatter = new Intl.DateTimeFormat(locale);
-    } catch (_) {
-      return "Invalid Date";
-    }
-    // return formatter.format(Date.parse(value));
+  static date(value: Date, locale: string) {
+    return DateTime.fromJSDate(value)
+      .setLocale(locale)
+      .toLocaleString(DateTime.DATE_SHORT); // const formatter = new Intl.DateTimeFormat(locale);
   }
 
-  static longDate(value: any, locale: string) {
-    try {
-      return DateTime.fromObject(value)
-        .setLocale(locale)
-        .toLocaleString(DateTime.DATE_FULL);
-    } catch (_) {
-      return "Invalid Date";
-    }
+  static longDate(value: Date, locale: string) {
+    return DateTime.fromJSDate(value)
+      .setLocale(locale)
+      .toLocaleString(DateTime.DATE_FULL);
   }
 
   static max100(val: string) {
@@ -43,13 +34,8 @@ export default class Format {
     const d = number.match(/\{date:[a-zA-Z_\-\.]+\}/);
     if (d) {
       const format = d[0].replace("{date:", "").replace("}", "");
-      console.log(format)
-      try {
-        const date = DateTime.now().toFormat(format);
-        number = number.replace(d[0], date);
-      } catch (e) {
-        number = number.replace(d[0], "INVALID-DATEFORMAT");
-      }
+      const date = DateTime.now().toFormat(format);
+      number = number.replace(d[0], date);
     }
     return number;
   }

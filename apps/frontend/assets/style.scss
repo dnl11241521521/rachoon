@@ -129,9 +129,16 @@ select:focus {
   @apply border-b border-base-300;
 }
 
+table.datatable tr {
+  @apply bg-base-300 bg-opacity-0 transition-all duration-500;
+  &:hover {
+    @apply bg-opacity-100 duration-100;
+  }
+}
+
 .logo h2 {
   font-weight: 800;
-  font-size: 35px;
+  font-size: 24px;
   font-family: "Leckerli One";
   @apply text-white;
 }
