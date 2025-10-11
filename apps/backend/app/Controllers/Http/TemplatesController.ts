@@ -88,7 +88,6 @@ export default class TemplatessController {
         default: true,
       })
       .orWhere({ organizationId: null, default: true })
-
       .firstOrFail()
   }
 
