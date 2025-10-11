@@ -40,9 +40,7 @@ export default class BaseAppModel extends compose(BaseModel, SoftDeletes) {
 
           if (!model.sortFields.includes(field) && !field.includes('.'))
             throw new Exception(
-              `Invalid sort field: ${field}. Allowed fields are [${model.indexedFields.join(
-                ', '
-              )}]`,
+              `Invalid sort field: ${field}. Allowed fields are [${model.sortFields.join(', ')}]`,
               400
             )
           let order = sort[field]
@@ -90,9 +88,7 @@ export default class BaseAppModel extends compose(BaseModel, SoftDeletes) {
           throw new Exception('Invalid filter format. Use filter[field][operator]=value', 400)
         if (!model.filterFields.includes(field))
           throw new Exception(
-            `Invalid filter field: ${field}. Allowed fields are [${model.indexedFields.join(
-              ', '
-            )}]`,
+            `Invalid filter field: ${field}. Allowed fields are [${model.filterFields.join(', ')}]`,
             400
           )
         const op = Object.keys(f)[0]
