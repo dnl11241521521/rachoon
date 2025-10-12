@@ -53,16 +53,16 @@ export default function useApi() {
           ),
         count: async (): Promise<number> => Number((await useHttp.get(`${endpoint}/?count=true`)).body!),
         delete: async (id: string) => (await useHttp.del(`${endpoint}/${id}`)).body,
-        saveOrUpdate: async (client: ClientType, update: boolean = false) => {
+        saveOrUpdate: async (client: Client, update: boolean = false) => {
           const notif = {
             title: client.number,
             text: "Client saved successfully",
             type: "success",
           };
           if (update) {
-            return (await useHttp.put(`${endpoint}/${client.id}`, client, notif)).body;
+            return new Client((await useHttp.put(`${endpoint}/${client.id}`, client, notif)).body);
           } else {
-            return (await useHttp.post(`${endpoint}`, client, notif)).body as ClientType;
+            return new Client((await useHttp.post(`${endpoint}`, client, notif)).body);
           }
         },
       };

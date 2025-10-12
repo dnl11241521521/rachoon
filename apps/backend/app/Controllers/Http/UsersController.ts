@@ -23,12 +23,12 @@ export default class UsersController {
   }
 
   public async store(ctx: HttpContextContract) {
-    const body = await ctx.request.validate(UserValidator)
+    const body = await ctx.request.validate(new UserValidator(ctx))
     return await User.create({ ...body, organizationId: ctx.auth.user?.organization.id })
   }
 
   public async update(ctx: HttpContextContract) {
-    const body = await ctx.request.validate(UserValidator)
+    const body = await ctx.request.validate(new UserValidator(ctx))
     await User.updateOrCreate(
       {
         organizationId: ctx.auth.user?.organization.id,

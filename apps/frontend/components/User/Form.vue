@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { UserRole } from "@repo/common/User";
+
 const controller = () => useUser();
 controller().form();
-const roles = ["admin", "user"];
+const roles = [UserRole.ADMIN, UserRole.VIEWER, UserRole.EDITOR];
+const newPasswordRepeat = ref(null);
 </script>
 
 <template>
@@ -73,9 +76,45 @@ const roles = ["admin", "user"];
           </span>
         </label>
         <select class="select select-bordered select-sm" v-model="controller().item.role" required>
-          <option v-for="r in roles" :value="r">{{ r }}</option>
+          <option v-for="r in roles" :value="r">{{ UserRole[r] }}</option>
         </select>
       </div>
+    </FormSection>
+
+    <FormSection title="Password" description="Set the password of the user">
+      <div>
+        <label class="label w-full max-w-xs">
+          <span class="label-text">
+            Password
+            <span class="text-red-700" v-if="controller().isNew()">*</span>
+          </span>
+        </label>
+        <input
+          type="password"
+          placeholder="************"
+          :required="controller().isNew()"
+          autocomplete="new-password"
+          v-model="controller().item.password"
+          class="input input-bordered input-sm w-full max-w-xs"
+        />
+      </div>
+      <div>
+        <label class="label w-full max-w-xs">
+          <span class="label-text">
+            Password repeat
+            <span class="text-red-700" v-if="controller().isNew()">*</span>
+          </span>
+        </label>
+        <input
+          type="password"
+          autocomplete="new-password"
+          placeholder="************"
+          :required="controller().isNew()"
+          class="input input-bordered input-sm w-full max-w-xs"
+          v-model="newPasswordRepeat"
+        />
+      </div>
+      <div class="text-error text-sm" v-if="controller().item.password !== newPasswordRepeat">Passwords don't match</div>
     </FormSection>
   </form>
 </template>

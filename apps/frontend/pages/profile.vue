@@ -3,6 +3,8 @@ definePageMeta({
   layout: "core",
 });
 const profile = useProfile().me;
+useProfile().newPassword = null;
+useProfile().newPasswordRepeat = null;
 function save() {}
 </script>
 <template>
@@ -121,9 +123,7 @@ function save() {}
             v-model="useProfile().newPasswordRepeat"
           />
         </div>
-        <div class="alert alert-error max-w-xs mt-5" v-if="useProfile().newPassword !== useProfile().newPasswordRepeat">
-          Passwords don't match
-        </div>
+        <div class="text-error text-sm" v-if="useProfile().newPassword !== useProfile().newPasswordRepeat">Passwords don't match</div>
         <button type="submit" class="btn btn-sm mt-5 gap-2">
           <FaIcon icon="fa-solid fa-key " />
           Save new password

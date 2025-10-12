@@ -5,11 +5,9 @@ import Base from "./_base";
 class UserStore extends Base<User> {
   save = async (e: Event) => {
     super.save(e);
-
-    const isNew = this.item.value?.id === null;
-    const u = await useApi().users().saveOrUpdate(this.item.value!, !isNew);
-    if (isNew) {
-      useRouter().replace(`/${this.type}/${u.id}`);
+    const u = await useApi().users().saveOrUpdate(this.item.value!, !this.isNew());
+    if (this.isNew()) {
+      useRouter().replace(`/users/${u.id}`);
     }
   };
 

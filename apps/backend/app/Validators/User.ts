@@ -1,12 +1,18 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
+import { UserRole } from '@repo/common/User'
 
 class ProfileValidator {
   constructor(protected ctx: HttpContextContract) {}
   public schema = schema.create({
     email: schema.string([
       rules.email(),
-      rules.unique({ table: 'users', column: 'email', whereNot: { id: this.ctx.auth.user?.id } }),
+      rules.unique({
+        table: 'users',
+        column: 'email',
+        where: { organization_id: this.ctx.auth.user!.organizationId },
+        whereNot: { id: this.ctx.auth.user!.id },
+      }),
     ]),
     data: schema.object().members({
       fullName: schema.string(),
@@ -26,10 +32,11 @@ class UserValidator {
       rules.unique({
         table: 'users',
         column: 'email',
-        whereNot: { id: this.ctx.request.param('id') },
+        where: { organization_id: this.ctx.auth.user!.organizationId },
+        whereNot: { id: this.ctx.request.param('id') ?? null },
       }),
     ]),
-    role: schema.number(),
+    role: schema.number([rules.range(UserRole.EDITOR - 1, UserRole.ADMIN + 1)]),
     password: this.ctx.request.param('id') ? schema.string.optional() : schema.string(),
     data: schema.object().members({
       fullName: schema.string(),
