@@ -70,7 +70,7 @@ export default class OrganizationHelper {
           }
     }
 
-    const ref = ctx.request.header('origin')
+    const ref = ctx.request.header('origin') || ctx.request.header('host')
     if (!ref) {
       return null
     }

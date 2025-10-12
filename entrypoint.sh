@@ -1,9 +1,13 @@
 #!/bin/sh
 
 cd /app/backend/apps/backend || exit
+
+export PORT=3333
+export NODE_ENV=production
+
 node ace migration:run --force
 node ace db:seed
-PORT=3333 node server.js &
+node server.js &
 
 cd /app/frontend || exit
 PORT=3000 node ./server/index.mjs &

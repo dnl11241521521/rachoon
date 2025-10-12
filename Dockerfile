@@ -5,26 +5,24 @@ USER root
 RUN apk add --no-cache --update nodejs npm graphicsmagick ghostscript caddy
 
 WORKDIR /app
+COPY ./Caddyfile .
+COPY ./entrypoint.sh .
 
 RUN npm install -g pnpm
 RUN mkdir -p /app/frontend
+RUN mkdir -p /app/backend/apps/backend
 
 COPY ./apps/frontend/.output /app/frontend
 
-RUN mkdir -p /tmp/backendbuilder/apps/backend
-RUN mkdir -p /tmp/backendbuilder/packages/
-COPY ./apps/backend/build /tmp/backendbuilder/apps/backend
-COPY ./packages /tmp/backendbuilder/packages
-COPY ./package.json /tmp/backendbuilder
-COPY ./pnpm-workspace.yaml /tmp/backendbuilder
+COPY ./apps/backend/build /app/backend/apps/backend
+COPY ./packages /app/backend/packages
+COPY ./package.json /app/backend/
+COPY ./pnpm-workspace.yaml /app/backend/
 
-WORKDIR /tmp/backendbuilder/apps/backend
+WORKDIR /app/backend/apps/backend
 RUN pnpm install --prod --force
 
-RUN mv /tmp/backendbuilder /app/backend
 
 WORKDIR /app
 
-COPY ./Caddyfile .
-COPY ./entrypoint.sh .
 ENTRYPOINT ["./entrypoint.sh"]
