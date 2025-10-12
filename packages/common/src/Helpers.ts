@@ -10,7 +10,7 @@ export default class Helpers {
       ...Object.keys(remoteObj || {}),
     ]);
 
-    allKeys.forEach((key) => {
+    allKeys.forEach((key: any) => {
       const val1 = defaultObj?.[key];
       const val2 = remoteObj?.[key];
 
@@ -38,7 +38,7 @@ export default class Helpers {
     return result;
   }
 
-  static isEmptyValue(value) {
+  static isEmptyValue(value: any) {
     if (value === null || value === undefined) {
       return true;
     }

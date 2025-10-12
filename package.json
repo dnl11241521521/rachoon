@@ -8,6 +8,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
+    "minimatch": "^10.0.3",
+    "pino-std-serializers": "^7.0.0",
     "prettier": "^3.6.2",
     "turbo": "latest"
   },

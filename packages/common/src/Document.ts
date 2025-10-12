@@ -36,11 +36,11 @@ export enum DCType {
 class Recurring {
   id: string = "";
   cron: string = "";
-  active: false;
+  active = false;
   startDate: Date = new Date();
   nextRun: Date = new Date();
   invoiceId: string = "";
-  invoice: Document;
+  invoice: Document | null = null;
 
   constructor(json?: any) {
     if (json) {
@@ -95,7 +95,7 @@ export interface DocumentData {
   title: string;
   positions: Position[];
   discountsCharges: DiscountCharge[];
-  taxes: { [rate: number]: number };
+  taxes: { [rate: string]: number };
   headingText: string;
   footerText: string;
   date: Date;
@@ -116,11 +116,11 @@ class Document {
   offerId: null | string = null;
   templateId: null | string = null;
   invoiceId = null;
-  totalReminders: 0;
+  totalReminders = 0;
   isRecurring = false;
   isFromRecurring = false;
-  overdue: false;
-  offer: Document;
+  overdue = false;
+  offer: Document | null = null;
   invoices: Document[] = [];
   recurringInvoice: Recurring | null = null;
   data = {
@@ -151,7 +151,7 @@ class Document {
       this.data.positions.map((p) => (p.focused = false));
       this.offer = new Document(json.offer);
 
-      this.invoices = (json.invoices || []).map((i) => new Document(i));
+      this.invoices = (json.invoices || []).map((i: any) => new Document(i));
       this.data.date = new Date(Date.parse(json.data.date.toString()));
       this.data.dueDate = new Date(Date.parse(json.data.dueDate.toString()));
       if (json.updatedAt && json.createdAt) {
@@ -303,9 +303,10 @@ class Document {
   calcTotal() {
     this.data.total = 0;
     this.data.total += Math.round(this.data.net * 100) / 100;
+
     if (this.data.taxOption?.applicable) {
-      Object.keys(this.data.taxes).map((k) => {
-        this.data.total += Math.round(this.data.taxes[k] * 100) / 100;
+      Object.entries(this.data.taxes).forEach(([_, value]) => {
+        this.data.total += Math.round((value as number) * 100) / 100;
       });
     }
   }
@@ -323,7 +324,7 @@ class Document {
         if (!rates[p.tax]) {
           rates[p.tax] = 0;
         }
-        rates[p.tax] += p.taxPrice;
+        rates[p.tax]! += p.taxPrice;
       });
       this.data.taxes = rates;
     }
@@ -382,7 +383,7 @@ class Document {
 
   focusPosition(index: number) {
     this.data.positions.map((p) => (p.focused = false));
-    this.data.positions[index].focused = true;
+    this.data.positions[index]!.focused = true;
   }
 
   toJSON() {
