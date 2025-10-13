@@ -20,8 +20,8 @@ export default class RenderController {
       .firstOrFail()
 
     const preview = ctx.request.qs()['preview'] || false
-    const html = Renderer.prepareHtml(ctx.auth.user!, template, body.data)
 
+    const html = Renderer.prepareHtml(ctx.auth.user!, template, body.data)
     return await Renderer.generatePDFOrImage(html, preview, 1)
   }
 }

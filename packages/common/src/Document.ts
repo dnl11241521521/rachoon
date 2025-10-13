@@ -174,6 +174,22 @@ class Document {
     this.calcTotal();
   }
 
+  static getTypeString(
+    type: DocumentType,
+    toLower: boolean = false,
+    plural: boolean = false,
+  ) {
+    let t = DocumentType[type];
+    if (toLower) t = t.toLowerCase();
+    if (plural) t += "s";
+    return t;
+  }
+
+  getType(toLower: boolean = false) {
+    if (toLower) return DocumentType[this.type].toLowerCase();
+    return DocumentType[this.type];
+  }
+
   calculateInvoiceToConvertPositions(
     offer: Document,
     option: string,

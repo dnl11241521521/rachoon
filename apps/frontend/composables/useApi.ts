@@ -241,9 +241,13 @@ export default function useApi() {
       };
     },
     render: async (html: string, preview: boolean = false): Promise<string[] | string> => {
-      const res = (await useHttp.post(`/api/render${preview ? "?preview=true" : ""}`, {
-        html: html,
-      })) as string[];
+      const res = (await useHttp.post(
+        `/api/render${preview ? "?preview=true" : ""}`,
+        {
+          html: html,
+        },
+        true,
+      )) as string[];
 
       if (preview) return res;
 

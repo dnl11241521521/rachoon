@@ -1,5 +1,6 @@
 import { PDFiumLibrary, PDFiumPageRenderOptions } from '@hyzyla/pdfium'
-import { Locale } from '@repo/common'
+import { DocumentType, Locale } from '@repo/common'
+import { Document as CommonDocument } from '@repo/common'
 import Template from 'App/Models/Template'
 import User from 'App/Models/User'
 import { chromium } from 'playwright'
@@ -44,7 +45,7 @@ export default class Renderer {
     const longDate = (value: any): string => Format.longDate(new Date(value), loc)
 
     return nunjucks.renderString(template.html, {
-      document: data,
+      document: new CommonDocument(data),
       template: template,
       organization: org,
       user: user,

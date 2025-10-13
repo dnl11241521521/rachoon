@@ -1,0 +1,12 @@
+{
+  "watch": [
+    "app",
+    "../../packages/common/dist"
+  ],
+  "ext": "ts,js,cjs",
+  "exec": "node ace serve --watch",
+  "ignore": [
+    "node_modules",
+    "build"
+  ]
+}

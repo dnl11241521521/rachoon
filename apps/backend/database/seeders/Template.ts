@@ -217,7 +217,7 @@ export default class extends BaseSeeder {
             </div>
           </section>
         <section class="section content">
-          <h1>{{ t(document.type) }}</h1>
+          <h1>{{ t(organization.settings[document.getType()].title)}}</h1>
           {% if document.data.headingText %}
           <div class="is-together-print">{{document.data.headingText | urlize | safe}}</div>
           {% endif %}

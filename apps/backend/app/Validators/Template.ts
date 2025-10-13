@@ -9,7 +9,7 @@ export default class TemplateValidator {
     data: schema.object().members({
       colors: schema.object().anyMembers(),
       texts: schema.object().members({
-        beforeTable: schema.string.optional(),
+        beforeTable: schema.string.optional({}),
         afterTable: schema.string.optional(),
       }),
       columns: schema.object().members({

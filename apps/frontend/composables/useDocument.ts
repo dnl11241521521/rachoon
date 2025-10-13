@@ -177,6 +177,7 @@ class DocumentStore extends Base<Document> {
   form = async () => {
     this.loading.value = true;
     new Promise(async (r) => {
+      useTemplate().getDefault();
       this.templates.value = (await useApi().templates().getAll()).rows;
       r(true);
     });

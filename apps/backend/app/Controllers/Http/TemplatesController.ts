@@ -61,11 +61,11 @@ export default class TemplatessController {
   public async update(ctx: HttpContextContract) {
     const body = await ctx.request.validate(TemplateValidator)
     const template = await Template.query()
-      .where({ id: ctx.request.param('id'), organizationId: ctx.auth.user?.organizationId })
+      .where({ id: ctx.request.param('id'), organizationId: ctx.auth.user!.organizationId })
       .firstOrFail()
 
     template.merge(body)
-    template.thumbnail = await this.generateThumbnail(ctx, template)
+    // template.thumbnail = await this.generateThumbnail(ctx, template)
 
     await template.save()
     if (template.default) {
@@ -103,6 +103,7 @@ export default class TemplatessController {
     delete duplicate.$attributes.id
     delete duplicate.$attributes.created_at
     delete duplicate.$attributes.updated_at
+    duplicate.$attributes.organizationId = ctx.auth.user!.organizationId
     duplicate.$attributes.title = `${template.title} (Copy)`
     duplicate.$attributes.default = false
     duplicate.$attributes.premium = false

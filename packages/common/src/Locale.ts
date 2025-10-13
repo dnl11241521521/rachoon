@@ -57,7 +57,7 @@ class Locale {
     const l =
       Locale.messages[locale] ||
       (this.messages["en"] as { [key: string]: string });
-    const s = l[key] || "";
+    const s = l[key] || key;
     return sprintf(s, ...values);
   }
 }
