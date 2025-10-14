@@ -1,5 +1,5 @@
 <template>
-  <div class="px-10 py-5 prose md:flex">
+  <div class="px-10 py-5 prose md:flex formsection">
     <div class="w-full md:w-2/5 p-5">
       <h3>{{ $props.title }}</h3>
       <p>{{ $props.description }}</p>

@@ -9,9 +9,9 @@ onMounted(() => {
 const columns = [
   { label: "# Number", field: "number", class: "", width: "180" },
   { label: "Name", field: "name", class: "" },
-  { label: "Offers", field: "offers", class: "" },
-  { label: "Invoices", field: "pendingInvoices", class: "" },
-  { label: "Reminders", field: "reminders", class: "" },
+  { label: "Offers", field: "totalOffers", class: "hidden md:table-cell" },
+  { label: "Invoices", field: "totalInvoices", class: "hidden md:table-cell" },
+  { label: "Reminders", field: "totalReminders", class: "hidden md:table-cell" },
   { label: "", field: "actions", class: "text-right" },
 ];
 </script>
@@ -30,7 +30,7 @@ const columns = [
     <DataTable
       :columns="columns"
       :rows="useClient().items"
-      :sortableFields="['number', 'name']"
+      :sortableFields="['number', 'name', 'totalInvoices', 'totalReminders', 'totalOffers']"
       :showLoadMore="controller().hasMore()"
       @doLoadMore="controller().doLoadMore()"
       @sort="(sort) => controller().sort(sort)"
@@ -47,25 +47,34 @@ const columns = [
       <template #name="{ row }">
         {{ row.name }}
         <br />
-        <small class="opacity-50">{{ row.data.info.vat }}</small>
+        <small class="opacity-50">{{ row.data.contactPerson.fullName }}</small>
       </template>
 
-      <template #offers="{ row }">
-        <NuxtLink :to="`/offers/client/${row.id}`">{{ row.totalOffers }} Offers</NuxtLink>
-        <br />
-        <span v-if="row.pendingOffers > 0" class="text-error text-opacity-50">{{ row.pendingOffers }}</span>
-        &nbsp;
+      <template #totalOffers="{ row }">
+        <div class="indicator">
+          <span v-if="row.pendingOffers > 0" class="indicator-item badge badge-xs badge-error">
+            {{ row.pendingOffers }}
+          </span>
+          <NuxtLink :to="`/offers/client/${row.id}`">{{ row.totalOffers }} Offers</NuxtLink>
+        </div>
       </template>
 
-      <template #pendingInvoices="{ row }">
-        <NuxtLink :to="`/invoices/client/${row.id}`">{{ row.totalInvoices }} Invoices</NuxtLink>
-        <br />
-        <small v-if="row.pendingInvoices > 0" class="text-error text-opacity-50">pending {{ row.pendingInvoices }}</small>
-        &nbsp;
+      <template #totalInvoices="{ row }">
+        <div class="indicator">
+          <span v-if="row.pendingInvoices > 0" class="indicator-item badge badge-xs badge-error">
+            {{ row.pendingInvoices }}
+          </span>
+          <NuxtLink :to="`/invoices/client/${row.id}`">{{ row.totalInvoices }} Invoices</NuxtLink>
+        </div>
       </template>
 
-      <template #reminders="{ row }">
-        <NuxtLink :to="`/reminders/client/${row.id}`">{{ row.totalReminders }} Reminders</NuxtLink>
+      <template #totalReminders="{ row }">
+        <div class="indicator">
+          <span v-if="row.pendingReminders > 0" class="indicator-item badge badge-xs badge-error">
+            {{ row.pendingReminders }}
+          </span>
+          <NuxtLink :to="`/reminders/client/${row.id}`">{{ row.totalReminders }} Reminders</NuxtLink>
+        </div>
       </template>
 
       <template #actions="{ row }">

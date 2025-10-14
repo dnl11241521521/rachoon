@@ -9,11 +9,6 @@ export default defineNuxtConfig({
   experimental: {
     payloadExtraction: false,
   },
-  vite: {
-    optimizeDeps: {
-      include: ["@repo/common"],
-    },
-  },
   nitro: {
     routeRules: {
       "/app/info": { proxy: "/api/info" },

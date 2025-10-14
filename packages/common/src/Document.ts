@@ -149,7 +149,9 @@ class Document {
       Helpers.merge(this, json);
 
       this.data.positions.map((p) => (p.focused = false));
-      this.offer = new Document(json.offer);
+      if (json.offer) {
+        this.offer = new Document(json.offer);
+      }
 
       this.invoices = (json.invoices || []).map((i: any) => new Document(i));
       this.data.date = new Date(Date.parse(json.data.date.toString()));

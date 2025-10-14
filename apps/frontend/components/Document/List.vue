@@ -55,11 +55,11 @@ const getStatusTooltip = (row: Document): string => {
 
 const columns = [
   { label: "# Number", field: "number", class: "", width: "250" },
-  { label: "", field: "hints", class: "text-center", width: "60" },
-  { label: "Client", field: "client", class: "", width: "200" },
+  { label: "", field: "hints", class: "text-center hidden md:table-cell", width: "60" },
+  { label: "Client", field: "client", class: "hidden md:table-cell", width: "200" },
   { label: "Status", field: "status", class: "text-center", width: "100" },
-  { label: "Due Date", field: "data.dueDate", class: "", width: "120" },
-  { label: "Net", field: "data.net", class: "", width: "200" },
+  { label: "Due Date", field: "data.dueDate", class: "hidden md:table-cell", width: "120" },
+  { label: "Net", field: "data.net", class: "hidden md:table-cell", width: "200" },
   { label: "Total", field: "data.total", class: "", width: "200" },
   { label: "", field: "actions", class: "text-right" },
 ];
@@ -138,7 +138,7 @@ const columns = [
       <template #client="{ row }">
         {{ row.client.name }}
         <br />
-        <small class="opacity-50">{{ row.client.number }}</small>
+        <small class="opacity-50">{{ row.client.data.contactPerson.fullName }}</small>
       </template>
       <template #status="{ row }">
         <div class="tooltip" :data-tip="getStatusTooltip(row)">

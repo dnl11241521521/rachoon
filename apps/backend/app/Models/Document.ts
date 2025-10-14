@@ -34,6 +34,7 @@ export default class Document extends BaseAppModel {
   public totalReminders: number
   public static searchFields = ['number', 'data.dueDate', 'data.net', 'data.total']
   public static sortFields = ['number', 'status', 'data.dueDate', 'data.net', 'data.total']
+  public static filterFields = ['clientId']
 
   @computed()
   public get overdue() {

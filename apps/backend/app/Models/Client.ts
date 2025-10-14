@@ -8,7 +8,7 @@ import { DocumentType } from '@repo/common'
 
 export default class Client extends BaseAppModel {
   public static searchFields = ['name', 'number']
-  public static sortFields = ['name', 'number']
+  public static sortFields = ['name', 'number', 'totalInvoices', 'totalReminders', 'totalOffers']
   public serializeExtras() {
     return {
       totalInvoices: Number(this.$extras.totalInvoices || 0),
@@ -44,21 +44,21 @@ export default class Client extends BaseAppModel {
 
   @hasMany(() => Document, {
     onQuery: (query) => {
-      return query.where({ type: DocumentType.Invoice })
+      return query.where({ type: DocumentType.Invoice }).andWhereNull('deletedAt')
     },
   })
   public invoices: HasMany<typeof Document>
 
   @hasMany(() => Document, {
     onQuery: (query) => {
-      return query.where({ type: DocumentType.Offer })
+      return query.where({ type: DocumentType.Offer }).andWhereNull('deletedAt')
     },
   })
   public offers: HasMany<typeof Document>
 
   @hasMany(() => Document, {
     onQuery: (query) => {
-      return query.where({ type: DocumentType.Reminder })
+      return query.where({ type: DocumentType.Reminder }).andWhereNull('deletedAt')
     },
   })
   public reminders: HasMany<typeof Document>

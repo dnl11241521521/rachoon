@@ -47,13 +47,11 @@ class Client {
       discount: { value: null, valueType: "percent" },
     },
   };
-  minutes: number = 0;
   totalInvoices: number = 0;
   pendingInvoices: number = 0;
   totalOffers: number = 0;
   totalReminders: number = 0;
   pendingOffers: number = 0;
-  duration: string = "00h:00m";
 
   public constructor(json?: any) {
     if (json) {

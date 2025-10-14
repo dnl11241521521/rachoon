@@ -14,7 +14,8 @@ export default class DashboardController {
       .preload('client')
       .preload('offer')
       .preload('invoices')
-      .orderBy('created_at', 'desc')
+      .orderByRaw(`data->>'dueDate' asc`)
+
       .limit(5)
 
     const pendingOffers = await Document.query()
@@ -26,7 +27,7 @@ export default class DashboardController {
       .preload('client')
       .preload('offer')
       .preload('invoices')
-      .orderBy('created_at', 'desc')
+      .orderByRaw(`data->>'dueDate' asc`)
       .limit(5)
 
     const pendingReminders = await Document.query()
@@ -38,7 +39,7 @@ export default class DashboardController {
       .preload('client')
       .preload('offer')
       .preload('invoices')
-      .orderBy('created_at', 'desc')
+      .orderByRaw(`data->>'dueDate' asc`)
 
     const invoiceAmounts = await Document.query()
       .where({

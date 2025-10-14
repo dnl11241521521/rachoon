@@ -6,6 +6,7 @@ import { VAceEditor } from "vue3-ace-editor";
 import "ace-builds/src-noconflict/mode-nunjucks";
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-dracula";
+import { Example, DocumentType } from "@repo/common";
 
 const variables = {
   format: {
@@ -13,7 +14,7 @@ const variables = {
     date: "use format.date(value) to format dates to locale",
   },
   t: "Use t(string) to translate strings to locale",
-  object: useExample().invoice,
+  object: Example.get(DocumentType.Invoice),
   organization: useProfile().me.organization,
   user: useProfile().me,
 };
@@ -27,7 +28,7 @@ const vars = ref(JSON.stringify(variables, null, 2));
       <FormHeader title="Template Editor" icon="fa-palette">
         <template #buttons>
           <div class="tooltip tooltip-bottom" data-tip="Preview">
-            <Preview :templateId="useRoute().params['id'] as string" example="invoice" />
+            <Preview :templateId="useRoute().params['id'] as string" :example="true" />
           </div>
           <div class="tooltip tooltip-bottom" data-tip="Duplicate">
             <button type="button" @click="controller().duplicate(controller().item.id)" class="btn btn-sm btn-ghost btn-circle">
@@ -97,20 +98,14 @@ const vars = ref(JSON.stringify(variables, null, 2));
         <Editor v-model="controller().item.data.texts.afterTable" placeholder="Custom text after table" />
       </FormSection>
       <div class="flex gap-3 px-10 mb-14 mt-5 w-full">
-        <Editor class="w-1/4 h-72" v-model="controller().item.data.columns.first" title="Column First" placeholder="Text of first column" />
+        <Editor class="w-1/3 h-72" v-model="controller().item.data.columns.first" title="Column First" placeholder="Text of first column" />
         <Editor
-          class="w-1/4 h-72"
+          class="w-1/3 h-72"
           v-model="controller().item.data.columns.second"
           title="Column Second"
           placeholder="Text of second column"
         />
-        <Editor class="w-1/4 h-72" v-model="controller().item.data.columns.third" title="Column Third" placeholder="Text of third column" />
-        <Editor
-          class="w-1/4 h-72"
-          v-model="controller().item.data.columns.fourth"
-          title="Column Fourth"
-          placeholder="Text of fourth column"
-        />
+        <Editor class="w-1/3 h-72" v-model="controller().item.data.columns.third" title="Column Third" placeholder="Text of third column" />
       </div>
       <div class="divider"></div>
 

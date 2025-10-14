@@ -15,17 +15,28 @@ export default class ClientsController {
       .where({ organizationId: ctx.auth.user?.organizationId })
       .withCount('invoices', (query) => query.as('totalInvoices'))
       .withCount('invoices', (query) =>
-        query.where({ status: DocumentStatus.Pending }).as('pendingInvoices')
+        query
+          .where({ status: DocumentStatus.Pending })
+          .andWhereRaw(`(data->>'dueDate')::timestamptz < NOW()`)
+          .as('pendingInvoices')
       )
       .withCount('offers', (query) => query.as('totalOffers'))
-      .withCount('reminders', (query) => query.as('totalReminders'))
       .withCount('offers', (query) =>
-        query.where({ status: DocumentStatus.Pending }).as('pendingOffers')
+        query
+          .where({ status: DocumentStatus.Pending })
+          .andWhereRaw(`(data->>'dueDate')::timestamptz < NOW()`)
+          .as('pendingOffers')
+      )
+      .withCount('reminders', (query) => query.as('totalReminders'))
+      .withCount('reminders', (query) =>
+        query
+          .where({ status: DocumentStatus.Pending })
+          .andWhereRaw(`(data->>'dueDate')::timestamptz < NOW()`)
+          .as('pendingReminders')
       )
       .withScopes((scopes) => scopes.sortBy(ctx, Client))
       .withScopes((scopes) => scopes.filterBy(ctx, Client))
       .withScopes((scopes) => scopes.searchBy(ctx, Client))
-
       .paginate(ctx.request.qs()['page'] || 1, ctx.request.qs()['perPage'] || 20)
   }
 

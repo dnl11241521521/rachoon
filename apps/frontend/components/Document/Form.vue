@@ -134,7 +134,7 @@ const convert = () => {
       </li>
     </ul>
 
-    <div class="flex flex-row px-5 mb-5">
+    <div class="flex flex-row px-5 mb-5 pt-14">
       <div class="w-1/3 px-5 py-3">
         <div v-if="controller().isNew() && !controller().isReminder() && !controller().isOfferToConvert()">
           <label class="label">
@@ -159,7 +159,7 @@ const convert = () => {
       </div>
       <div class="flex flex-grow">
         <div class="w-full prose text-center pt-3" v-if="controller().item.overdue">
-          <h2 class="m-0 p-0 text-error">Invoice overdue!</h2>
+          <h2 class="m-0 p-0 text-warning">Invoice overdue!</h2>
           <p>You should create a reminder.</p>
           <NuxtLink class="btn btn-sm btn-neutral gap-2 no-underline" :to="`/reminders/new?invoice=${controller().item.id}`">
             <FaIcon icon="fa-solid fa-bell" />

@@ -54,7 +54,7 @@ class DocumentStore extends Base<Document> {
 
   listForClient = (id: string) => {
     this.filter("clientId", "=", id);
-    this.list();
+    this.list(true);
   };
 
   setStatus = (d: Document) => {
@@ -72,9 +72,9 @@ class DocumentStore extends Base<Document> {
     useApi().documents(this.docType()).setStatus(d.id, status);
   };
 
-  list = async () => {
+  list = async (keepFilter: boolean = false) => {
     this.getAllFunc = useApi().documents(this.docType()).getAll;
-    this.parentList();
+    this.parentList(keepFilter);
   };
 
   docType = (): DocumentType => {

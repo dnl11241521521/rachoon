@@ -41,13 +41,14 @@ export default class Base<T extends IBase> {
   singularType = (firstToUpper: boolean = false) => this.type(firstToUpper).slice(0, this.type(firstToUpper).length - 1);
 
   async filter(key: string, operator: string, value: string) {
-    // if (!this.filterKeys.value[key]) {
-    //   this.filterKeys.value = { ...this.filterKeys.value, [key]: { operator: operator, value: value } };
-    // } else {
-    //   const tmp = this.sortKeys.value;
-    //   tmp[key] = { operator: operator, value: value };
-    //   this.filterKeys.value = tmp;
-    // }
+    if (operator === "=") operator = "%3D";
+    if (!this.filterKeys.value[key]) {
+      this.filterKeys.value = { ...this.filterKeys.value, [key]: { operator: operator, value: value } };
+    } else {
+      const tmp = this.sortKeys.value;
+      tmp[key] = { operator: operator, value: value };
+      this.filterKeys.value = tmp;
+    }
   }
 
   watchSearch = () => {
@@ -79,11 +80,15 @@ export default class Base<T extends IBase> {
     this.list();
   };
 
-  list = async () => {
+  list = async (keepFilter: boolean = false) => {
     if (!this.refresh.value) {
       this.page.value = 1;
       this.search.value = "";
       this.loading.value = true;
+      if (!keepFilter) {
+        this.filterKeys.value = {};
+      }
+      this.sortKeys.value = {};
     }
     const res = await this.getAllFunc(this.page.value, this.perPage.value, this.sortKeys.value, this.filterKeys.value, this.search.value);
     this.pages.value = res.pages;

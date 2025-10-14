@@ -2,7 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Template from 'App/Models/Template'
 import Renderer from 'App/Services/Renderer'
 import TemplateValidator from 'App/Validators/Template'
-import { Example } from '@repo/common'
+import { DocumentType, Example } from '@repo/common'
 
 export default class TemplatessController {
   private async removeDefault(ctx: HttpContextContract, id: number) {
@@ -13,7 +13,7 @@ export default class TemplatessController {
   }
 
   private async generateThumbnail(ctx: HttpContextContract, template: Template): Promise<string> {
-    const html = Renderer.prepareHtml(ctx.auth.user!, template, Example.get().invoice)
+    const html = Renderer.prepareHtml(ctx.auth.user!, template, Example.get(DocumentType.Invoice))
     const res = await Renderer.generatePDFOrImage(html, true, 10)
     return res[0]
   }

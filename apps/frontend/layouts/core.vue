@@ -5,7 +5,7 @@ const { isOpen } = useDrawer();
 <template>
   <div class="drawer lg:drawer-open">
     <input id="app-drawer" type="checkbox" class="drawer-toggle" v-model="isOpen" />
-    <div class="drawer-content md:pl-80">
+    <div class="drawer-content lg:pl-80">
       <slot />
     </div>
     <div class="drawer-side !fixed">

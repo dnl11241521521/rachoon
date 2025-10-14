@@ -2,17 +2,17 @@ import { Client } from "./Client";
 import { DCType, Document, DocumentType, ValueType } from "./Document";
 
 class Example {
-  static get() {
+  static client() {
     const client = new Client();
-    client.name = "Example client";
+    client.name = "BlueHorizon Data Systems Inc. ";
     client.data = {
       info: {
         vat: "XX-12345",
         addition: "",
       },
       contactPerson: {
-        fullName: "Someone Somebody",
-        email: "foo@example.com",
+        fullName: "Madison Blake",
+        email: "blake@bh.com",
       },
       address: {
         street: "example",
@@ -30,9 +30,18 @@ class Example {
         invoiceDueDays: 0,
       },
     };
-    const invoice = new Document();
-    invoice.type = DocumentType.Invoice;
-    invoice.data.positions = [
+    return client;
+  }
+  static get(type: DocumentType) {
+    const document = new Document();
+    document.type = type;
+    document.number = "2023-0001";
+    document.client = this.client();
+    document.data.date = new Date();
+    document.data.dueDate = new Date(
+      new Date().setDate(new Date().getDate() + 30),
+    );
+    document.data.positions = [
       {
         id: Date.now(),
         taxPrice: 0,
@@ -66,12 +75,12 @@ class Example {
         unit: "hrs",
       },
     ];
-    invoice.data.taxOption = {
+    document.data.taxOption = {
       title: "Apply taxes",
       applicable: true,
       default: true,
     };
-    invoice.data.discountsCharges = [
+    document.data.discountsCharges = [
       {
         title: "Some discount",
         value: 5,
@@ -81,64 +90,9 @@ class Example {
       },
     ];
 
-    invoice.client = client;
-    invoice.calculate();
+    document.calculate();
 
-    const offer = new Document();
-    offer.type = DocumentType.Offer;
-    offer.data.positions = [
-      {
-        id: Date.now(),
-        taxPrice: 0,
-        discount: 0,
-        net: 0,
-        netNoDiscount: 0,
-        total: 0,
-        totalPercentage: 0,
-        focused: false,
-        title: "Lorem ipsum dolor sit amet",
-        text: "<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>",
-        quantity: 5,
-        price: 300,
-        tax: 20,
-        unit: "hrs",
-      },
-      {
-        id: Date.now(),
-        taxPrice: 0,
-        discount: 0,
-        net: 0,
-        netNoDiscount: 0,
-        total: 0,
-        totalPercentage: 0,
-        focused: false,
-        title: "Lorem ipsum dolor sit amet",
-        text: "<p>Lorem ipsum dolor sit amet, consectetuer</p>",
-        quantity: 10,
-        price: 10000,
-        tax: 20,
-        unit: "hrs",
-      },
-    ];
-    offer.data.taxOption = {
-      title: "Apply taxes",
-      applicable: true,
-      default: true,
-    };
-    offer.data.discountsCharges = [
-      {
-        title: "Some discount",
-        value: 5,
-        type: DCType.Discount,
-        valueType: ValueType.Percent,
-        amount: 10,
-      },
-    ];
-
-    offer.client = client;
-    offer.calculate();
-
-    return { client, invoice, offer };
+    return document;
   }
 }
 

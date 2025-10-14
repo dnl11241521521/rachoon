@@ -102,7 +102,7 @@ export default class BaseAppModel extends compose(BaseModel, SoftDeletes) {
         if (op === 'like' && !value.includes('%')) {
           value = `%${value}%`
         }
-        query.where(field, op, value)
+        query.andWhere(field, op, value)
       }
     })
   )
