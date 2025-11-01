@@ -22,13 +22,13 @@ import Route from '@ioc:Adonis/Core/Route'
 
 Route.group(() => {
   Route.resource('', 'RootController').only(['index'])
+  Route.resource('run/recurring', 'RunRecurringInvoicesController').only(['index'])
   Route.resource('info', 'InfoController').only(['index'])
   Route.resource('auth', 'AuthController')
     .only(['store', 'destroy'])
     .middleware({ destroy: ['auth'] })
   Route.group(() => {
     Route.resource('invoices/recurring', 'RecurringInvoicesController')
-    Route.resource('run/recurring', 'RunRecurringInvoicesController').only(['index'])
     Route.get('documents/duplicate/:id', 'DocumentsController.duplicate')
     Route.resource('number/:type', 'NumbersController').only(['index'])
     Route.resource('documents/status', 'DocumentsStatusController').only(['update'])

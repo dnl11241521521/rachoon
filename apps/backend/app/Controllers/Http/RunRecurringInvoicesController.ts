@@ -5,7 +5,7 @@ import parser from 'cron-parser'
 import { DateTime } from 'luxon'
 
 export default class RunRecurringInvoicesController {
-  public async index() {
+  public async index({ response }) {
     const today = new Date()
     today.setHours(0, 0, 0, 0)
     const recurrings = await RecurringInvoice.query()
@@ -13,6 +13,10 @@ export default class RunRecurringInvoicesController {
       .andWhere('nextRun', '<=', today)
       .andWhere('active', true)
       .preload('invoice')
+
+    if (recurrings.length === 0) {
+      response.json({ message: 'No recurring invoices to process' })
+    }
 
     for (const recurring of recurrings) {
       const cron = parser.parse(recurring.cron)

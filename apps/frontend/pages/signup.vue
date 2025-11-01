@@ -46,10 +46,14 @@ const step = ref(1);
                 <FaIcon icon="fa-solid fa-check" v-if="useSignup().slugInUse === false" />
                 <FaIcon icon="fa-solid fa-close" v-if="useSignup().slugInUse === true" />
               </span>
-              <span>{{ organizationUrl(useSignup().slug) }}</span>
-            </div>
-            <div class="text-error opacity-50 text-xs" v-if="useSignup().slugInUse === true">
-              Slug '{{ useSignup().slug }}' already in use.
+              <span v-if="useSignup().slugInUse === true">
+                <span class="font-bold">{{ useSignup().slug }}</span>
+                already in use.
+              </span>
+              <span v-else>
+                <span class="font-bold">{{ useSignup().slug }}</span>
+                is available.
+              </span>
             </div>
           </div>
 

@@ -8,7 +8,11 @@ export default class OrganizationHelper {
     const fromHeader = await this.getFromHeader(ctx)
     const fromParam = await this.getFromParam(ctx)
 
-    if (!process.env.CLOUD && !fromOrigin && !fromHeader && !fromParam) {
+    if (fromParam === false) {
+      return null
+    }
+
+    if (!process.env.CLOUD && !fromOrigin && !fromHeader) {
       const organization = await Organization.query().orderBy('createdAt', 'asc').firstOrFail()
       return {
         slug: organization.slug,
@@ -36,6 +40,7 @@ export default class OrganizationHelper {
         logo: organization.data.logo,
       }
     }
+    return false
   }
 
   public static async getFromHeader(ctx: HttpContextContract) {
