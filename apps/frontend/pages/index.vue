@@ -11,7 +11,15 @@ useDashboard().get();
     <Loading v-if="useDashboard().loading" />
 
     <div v-else class="mx-5 mt-5">
-      <div class="stats shadow flex">
+      <div class="prose mb-5 mx-5">
+        <h2 class="">
+          <label for="app-drawer" class="btn btn-ghost btn-sm lg:hidden"><FaIcon icon="fa-icon fa-bars" /></label>
+
+          Statistics
+        </h2>
+      </div>
+
+      <div class="stats stats-vertical md:stats-horizontal flex-col md:flex-row flex shadow">
         <div class="stat">
           <div class="stat-figure text-info text-3xl">
             <FaIcon icon="fa-solid fa-check" />
