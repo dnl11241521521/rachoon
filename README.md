@@ -67,7 +67,7 @@ services:
       - PG_USER=<root-user>
       - PG_PASSWORD=<root-password>
       - PG_DB_NAME=rachoon
-    port:
+    ports:
       - 8080:8080
 
   gotenberg:
