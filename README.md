@@ -79,8 +79,10 @@ services:
     environment:
       - POSTGRES_USER=<root-user>
       - POSTGRES_PASSWORD=<root-password>
+      - POSTGRES_DB=postgres
     volumes:
       - ./rachoon-data:/var/lib/postgresql/data
+      - ./docker/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
 ```
 
 ## First steps
@@ -88,3 +90,88 @@ services:
 - Visit: <http://localhost:8080/signup>
 - Create your account
 - Start invoicing
+
+---
+
+## Development
+
+This project uses a monorepo structure managed by Turborepo.
+
+### Build Configuration
+
+The project is organized with the following build outputs:
+
+- **Frontend (Nuxt)**: `.output/` directory
+- **Backend (AdonisJS)**: `build/` directory
+- **Packages**: `dist/` directory
+
+### Build Commands
+
+```bash
+# Install dependencies
+pnpm install
+
+# Build all packages
+pnpm build
+
+# Run in development mode
+pnpm dev
+```
+
+### Project Structure
+
+```text
+rachoon/
+├── apps/
+│   ├── backend/     # AdonisJS API server
+│   └── frontend/    # Nuxt.js web application
+├── packages/
+│   ├── common/      # Shared code
+│   └── typescript-config/
+└── turbo.json       # Turborepo configuration
+```
+
+### Testing
+
+rachoon uses a comprehensive testing setup:
+
+**backend tests (japa)**
+```bash
+cd apps/backend
+pnpm test
+```
+
+**test structure**
+- unit tests for models and services
+- integration tests for api endpoints
+- database seeding for test data
+
+**ci/cd pipeline**
+
+all pull requests and pushes trigger automated checks:
+- code quality (linting, formatting)
+- test execution with postgres test database
+- build verification
+- docker image creation (main branch only)
+
+see [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed testing guidelines.
+
+---
+
+## Contributing
+
+we welcome contributions! please read our [contribution guidelines](./CONTRIBUTING.md) to get started.
+
+**quick start:**
+1. fork the repository
+2. create a feature branch
+3. make your changes
+4. add tests for new features
+5. ensure all tests pass
+6. submit a pull request
+
+---
+
+## License
+
+see [LICENSE](./LICENSE) for details.

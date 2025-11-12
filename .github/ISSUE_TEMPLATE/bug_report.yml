@@ -1,0 +1,125 @@
+name: bug report
+description: report a bug or unexpected behavior
+title: "[bug]: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        thanks for taking the time to report a bug! please fill out the form below.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: description
+      description: a clear and concise description of the bug
+      placeholder: what happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: steps to reproduce
+      description: steps to reproduce the behavior
+      placeholder: |
+        1. go to '...'
+        2. click on '...'
+        3. scroll down to '...'
+        4. see error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: expected behavior
+      description: what you expected to happen
+      placeholder: what should have happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: actual behavior
+      description: what actually happened
+      placeholder: what actually happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: screenshots
+      description: if applicable, add screenshots to help explain your problem
+      placeholder: drag and drop images here
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: component
+      description: which part of rachoon is affected?
+      options:
+        - frontend (nuxt)
+        - backend (adonisjs)
+        - database (postgres)
+        - docker setup
+        - pdf generation
+        - other
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: rachoon version
+      description: which version are you using?
+      placeholder: e.g., 1.1.9, latest, commit hash
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: environment
+      description: your environment details
+      placeholder: |
+        - os: [e.g., ubuntu 22.04, macos 13, windows 11]
+        - node version: [e.g., 18.x]
+        - pnpm version: [e.g., 10.x]
+        - docker version: [if applicable]
+      value: |
+        - os:
+        - node version:
+        - pnpm version:
+        - docker version:
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: relevant logs
+      description: please paste any relevant error messages or logs
+      render: shell
+      placeholder: paste logs here
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: additional context
+      description: add any other context about the problem here
+      placeholder: anything else we should know?
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: pre-submission checklist
+      options:
+        - label: i have searched existing issues to avoid duplicates
+          required: true
+        - label: i have provided all requested information
+          required: true
+        - label: i am willing to help test a fix
+          required: false

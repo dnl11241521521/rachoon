@@ -1,0 +1,81 @@
+name: question or discussion
+description: ask a question or start a discussion
+title: "[question]: "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        have a question? let's discuss it!
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: question category
+      description: what is your question about?
+      options:
+        - setup and installation
+        - configuration
+        - usage and features
+        - deployment
+        - performance
+        - security
+        - integrations
+        - general discussion
+        - other
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: question
+      description: what would you like to know?
+      placeholder: ask your question here
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: context
+      description: provide any relevant context that might help answer your question
+      placeholder: |
+        - what have you tried so far?
+        - what documentation have you consulted?
+        - what is your specific use case?
+    validations:
+      required: false
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: environment (if relevant)
+      description: your environment details
+      placeholder: |
+        - rachoon version:
+        - os:
+        - deployment method (docker, manual, etc):
+      value: |
+        - rachoon version:
+        - os:
+        - deployment method:
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: additional information
+      description: any other information that might be helpful
+      placeholder: screenshots, logs, links, etc.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: pre-submission checklist
+      options:
+        - label: i have searched existing issues and discussions
+          required: true
+        - label: i have consulted the documentation
+          required: true

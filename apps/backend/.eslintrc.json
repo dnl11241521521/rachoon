@@ -1,3 +1,4 @@
 {
+  "root": true,
   "extends": ["plugin:adonis/typescriptApp", "prettier"]
 }

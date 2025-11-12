@@ -39,3 +39,10 @@ yarn-error.log*
 deploy.sh
 
 .env.test
+
+
+#Ignore windsurf AI rules
+.windsurfrules
+/.windsurfrules
+/.claude
+.windsurf/

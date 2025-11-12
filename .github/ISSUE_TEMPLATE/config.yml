@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: security vulnerability
+    url: https://github.com/ad-on-is/rachoon/security/advisories/new
+    about: report a security vulnerability privately
+  - name: github discussions
+    url: https://github.com/ad-on-is/rachoon/discussions
+    about: ask questions and discuss with the community

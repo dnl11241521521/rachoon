@@ -3,23 +3,25 @@ services:
     image: ghcr.io/ad-on-is/rachoon
     container_name: rachoon
     environment:
-      - APP_KEY=<some-app-key>
+      - APP_KEY=e494d218125cd56396f2a12421d3a03a
       - DB_CONNECTION=pg
-      - GOTENBERG_URL=http://gotenberg:3000
+      - "GOTENBERG_URL=http://gotenberg:3000"
       - PG_HOST=postgres16
       - PG_PORT=5432
-      - PG_USER=<root-user>
-      - PG_PASSWORD=<root-password>
+      - PG_USER=72323b
+      - PG_PASSWORD=2b87b71a45db4bdd79a93382ad34e321
       - PG_DB_NAME=rachoon
-
+    ports:
+      - "8080:8080"
   gotenberg:
-    image: gotenberg/gotenberg:8
-
+    image: "gotenberg/gotenberg:8"
   postgres16:
     container_name: postgres16
-    image: postgres:16
+    image: "postgres:16"
     environment:
-      - POSTGRES_USER=<root-user>
-      - POSTGRES_PASSWORD=<root-password>
+      - POSTGRES_USER=72323b
+      - POSTGRES_PASSWORD=2b87b71a45db4bdd79a93382ad34e321
+      - POSTGRES_DB=postgres
     volumes:
-      - ./rachoon-data:/var/lib/postgresql/data
+      - "./rachoon-data:/var/lib/postgresql/data"
+      - "./docker/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh"

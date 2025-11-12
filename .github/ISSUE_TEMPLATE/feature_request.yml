@@ -1,0 +1,101 @@
+name: feature request
+description: suggest a new feature or enhancement
+title: "[feature]: "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        thanks for suggesting a feature! please fill out the form below.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: problem statement
+      description: describe the problem this feature would solve
+      placeholder: what problem are you trying to solve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: proposed solution
+      description: describe the solution you'd like to see
+      placeholder: how would you solve this problem?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: alternatives considered
+      description: describe any alternative solutions or features you've considered
+      placeholder: what other approaches could work?
+    validations:
+      required: false
+
+  - type: textarea
+    id: use-cases
+    attributes:
+      label: use cases
+      description: provide specific examples of how this feature would be used
+      placeholder: |
+        1. as a freelancer, i want to...
+        2. as a small business owner, i need to...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: component
+      description: which part of rachoon would this affect?
+      options:
+        - frontend (ui/ux)
+        - backend (api/logic)
+        - database (schema)
+        - pdf generation
+        - integrations
+        - documentation
+        - other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: priority
+      description: how important is this feature to you?
+      options:
+        - nice to have
+        - would improve my workflow
+        - critical for my use case
+    validations:
+      required: true
+
+  - type: textarea
+    id: mockups
+    attributes:
+      label: mockups or examples
+      description: if applicable, add mockups, wireframes, or examples
+      placeholder: drag and drop images or links here
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: additional context
+      description: add any other context or screenshots about the feature request
+      placeholder: anything else we should know?
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: pre-submission checklist
+      options:
+        - label: i have searched existing feature requests to avoid duplicates
+          required: true
+        - label: this feature aligns with rachoon's goals as an invoicing platform
+          required: true
+        - label: i am willing to contribute to implementing this feature
+          required: false

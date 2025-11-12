@@ -1,0 +1,79 @@
+name: documentation improvement
+description: suggest improvements or report issues with documentation
+title: "[docs]: "
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        thanks for helping improve our documentation!
+
+  - type: dropdown
+    id: doc-type
+    attributes:
+      label: documentation type
+      description: what type of documentation needs improvement?
+      options:
+        - readme
+        - contributing guide
+        - api documentation
+        - setup/installation guide
+        - code comments
+        - architecture documentation
+        - user guide
+        - other
+    validations:
+      required: true
+
+  - type: textarea
+    id: issue
+    attributes:
+      label: issue with current documentation
+      description: describe what's unclear, missing, or incorrect
+      placeholder: what's wrong with the current docs?
+    validations:
+      required: true
+
+  - type: input
+    id: location
+    attributes:
+      label: location
+      description: where is this documentation located?
+      placeholder: e.g., README.md line 45, CONTRIBUTING.md section "Testing"
+    validations:
+      required: false
+
+  - type: textarea
+    id: improvement
+    attributes:
+      label: suggested improvement
+      description: how should the documentation be improved?
+      placeholder: what would make it better?
+    validations:
+      required: true
+
+  - type: textarea
+    id: example
+    attributes:
+      label: proposed content
+      description: if you have specific wording or examples, provide them here
+      placeholder: suggested text or examples
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: additional context
+      description: add any other context or screenshots
+      placeholder: anything else we should know?
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: pre-submission checklist
+      options:
+        - label: i have read the existing documentation
+          required: true
+        - label: i am willing to submit a pr to fix this documentation issue
+          required: false
