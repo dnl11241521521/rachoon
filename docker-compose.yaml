@@ -12,7 +12,7 @@ services:
       - PG_PASSWORD=2b87b71a45db4bdd79a93382ad34e321
       - PG_DB_NAME=rachoon
     ports:
-      - "8080:8080"
+      - "8182:8080"
   gotenberg:
     image: "gotenberg/gotenberg:8"
   postgres16:
